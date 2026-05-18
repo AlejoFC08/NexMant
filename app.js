@@ -1,7 +1,7 @@
-// 1. Configuración e Inicialización de Supabase
+// 1. Configuración e Inicialización de Supabase con nombre único
 const supabaseUrl = 'https://vngeqappllasvobqolie.supabase.co';
 const supabaseKey = 'sb_publishable_AaIfYPmLCIDYnUXutFBEkg_8nIKe-Lv'; 
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Capturamos el contenedor del HTML usando su ID exacto
 const contenedorServicios = document.getElementById('contenedor-servicios');
@@ -9,15 +9,14 @@ const contenedorServicios = document.getElementById('contenedor-servicios');
 // 2. Función asíncrona para consultar y renderizar los servicios
 async function cargarServicios() {
     try {
-        // Hacemos la consulta a la tabla 'servicios' ordenando por fecha de creación
-        const { data: servicios, error } = await supabase
+        // Usamos la nueva variable supabaseClient
+        const { data: servicios, error } = await supabaseClient
             .from('servicios')
             .select('*')
             .order('creado_en', { ascending: true });
 
         if (error) throw error;
 
-        // Si la tabla está vacía
         if (!servicios || servicios.length === 0) {
             contenedorServicios.innerHTML = '<p style="text-align: center; color: #666; width: 100%;">No hay servicios disponibles en este momento.</p>';
             return;
@@ -33,12 +32,10 @@ async function cargarServicios() {
             const mensaje = `Hola NexMant, necesito cotizar un trabajo de ${servicio.titulo}.`;
             const urlWa = `https://wa.me/${numeroWa}?text=${encodeURIComponent(mensaje)}`;
 
-            // Validamos la foto del Storage
             const imagenHtml = servicio.imagen_url 
                 ? `<img src="${servicio.imagen_url}" alt="${servicio.titulo}" class="service-img">` 
                 : '<div style="width:100%; height:200px; background:#eee; display:flex; align-items:center; justify-content:center; color:#999;">Sin foto</div>';
 
-            // Inyectamos la estructura respetando los nuevos estilos unificados
             tarjeta.innerHTML = `
                 ${imagenHtml}
                 <div class="service-card-content">
@@ -52,8 +49,8 @@ async function cargarServicios() {
         });
 
     } catch (error) {
-        console.error('Error crítico al cargar los servicios de Supabase:', error);
-        contenedorServicios.innerHTML = '<p style="text-align: center; color: red; width: 100%;">Error al conectar con el servidor de contenidos. Por favor, reintentá más tarde.</p>';
+        console.error('Error crítico al cargar los servicios:', error);
+        contenedorServicios.innerHTML = '<p style="text-align: center; color: red; width: 100%;">Error al conectar con el servidor.</p>';
     }
 }
 
