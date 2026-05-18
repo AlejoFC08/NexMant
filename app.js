@@ -1,21 +1,12 @@
-// 1. Configuración e Inicialización de Supabase con nombre único
-const supabaseUrl = 'https://vngeqappllasvobqolie.supabase.co';
-const supabaseKey = 'sb_publishable_AaIfYPmLCIDYnUXutFBEkg_8nIKe-Lv'; 
-const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+// URL de tu implementación de Google Apps Script
+const URL_GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbz-3Z-IqCqZja3vesxOgsyw63Z9pbr4qrNWMbVra5TjWmJUyFOnwKspnJQRwpjWzXnF/exec';
 
-// Capturamos el contenedor del HTML usando su ID exacto
 const contenedorServicios = document.getElementById('contenedor-servicios');
 
-// 2. Función asíncrona para consultar y renderizar los servicios
 async function cargarServicios() {
     try {
-        // Usamos la nueva variable supabaseClient
-        const { data: servicios, error } = await supabaseClient
-            .from('servicios')
-            .select('*')
-            .order('creado_en', { ascending: true });
-
-        if (error) throw error;
+        const response = await fetch(URL_GOOGLE_SCRIPT);
+        const servicios = await response.json();
 
         if (!servicios || servicios.length === 0) {
             contenedorServicios.innerHTML = '<p style="text-align: center; color: #666; width: 100%;">No hay servicios disponibles en este momento.</p>';
@@ -44,15 +35,13 @@ async function cargarServicios() {
                     <a href="${urlWa}" target="_blank" class="btn-cotizar">Consultar</a>
                 </div>
             `;
-            
             contenedorServicios.appendChild(tarjeta);
         });
 
     } catch (error) {
-        console.error('Error crítico al cargar los servicios:', error);
-        contenedorServicios.innerHTML = '<p style="text-align: center; color: red; width: 100%;">Error al conectar con el servidor.</p>';
+        console.error('Error al cargar servicios desde Google Sheets:', error);
+        contenedorServicios.innerHTML = '<p style="text-align: center; color: red; width: 100%;">Error al conectar con el servidor de contenidos.</p>';
     }
 }
 
-// Ejecutamos al cargar
 cargarServicios();

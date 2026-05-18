@@ -1,22 +1,16 @@
-// 1. Inicialización con nombre único para evitar colisiones
-const supabaseUrl = 'https://vngeqappllasvobqolie.supabase.co';
-const supabaseKey = 'sb_publishable_AaIfYPmLCIDYnUXutFBEkg_8nIKe-Lv';
-const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+// URL de tu implementación de Google Apps Script
+const URL_GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbz-3Z-IqCqZja3vesxOgsyw63Z9pbr4qrNWMbVra5TjWmJUyFOnwKspnJQRwpjWzXnF/exec';
 
 const formulario = document.getElementById('form-servicio');
 const btnGuardar = document.getElementById('btn-guardar');
 const divMensaje = document.getElementById('mensaje');
 const listaAdmin = document.getElementById('lista-servicios-admin');
 
-// --- 1. FUNCIÓN PARA MOSTRAR LOS SERVICIOS EXISTENTES ---
+// --- 1. FUNCIÓN PARA LISTAR SERVICIOS EXISTENTES ---
 async function listarServiciosAdmin() {
     try {
-        const { data: servicios, error } = await supabaseClient
-            .from('servicios')
-            .select('*')
-            .order('creado_en', { ascending: false });
-
-        if (error) throw error;
+        const response = await fetch(URL_GOOGLE_SCRIPT);
+        const servicios = await response.json();
 
         if (!servicios || servicios.length === 0) {
             listaAdmin.innerHTML = '<p style="color: #999; text-align: center;">No hay servicios cargados todavía.</p>';
@@ -25,7 +19,8 @@ async function listarServiciosAdmin() {
 
         listaAdmin.innerHTML = ''; 
 
-        servicios.forEach(serv => {
+        // .reverse() para mostrar el más nuevo arriba de todo
+        servicios.reverse().forEach(serv => {
             const item = document.createElement('div');
             item.className = 'admin-item';
 
@@ -37,86 +32,86 @@ async function listarServiciosAdmin() {
                     <h4>${serv.titulo}</h4>
                     <p>${serv.descripcion ? serv.descripcion.substring(0, 60) : ''}...</p>
                 </div>
-                <button class="btn-danger" onclick="eliminarServicio(${serv.id}, '${serv.imagen_url || ''}')">Eliminar</button>
+                <button class="btn-danger" onclick="eliminarServicio(${serv.id})">Eliminar</button>
             `;
             listaAdmin.appendChild(item);
         });
 
     } catch (error) {
         console.error("Error al listar:", error);
-        listaAdmin.innerHTML = '<p style="color: red; text-align: center;">Error al cargar la lista.</p>';
+        listaAdmin.innerHTML = '<p style="color: red; text-align: center;">Error al cargar la lista desde Google Sheets.</p>';
     }
 }
 
 // --- 2. FUNCIÓN PARA ELIMINAR UN SERVICIO ---
-window.eliminarServicio = async function(id, imagenUrl) {
-    if (!confirm("¿Estás seguro de que querés eliminar este servicio?")) return;
+window.eliminarServicio = async function(id) {
+    if (!confirm("¿Estás seguro de que querés eliminar este servicio? Se borrará de la web inmediatamente.")) return;
 
     try {
-        const { error: dbError } = await supabaseClient
-            .from('servicios')
-            .delete()
-            .eq('id', id);
-
-        if (dbError) throw dbError;
-
-        if (imagenUrl) {
-            const nombreArchivo = imagenUrl.split('/').pop();
-            await supabaseClient.storage.from('imagenes-servicios').remove([nombreArchivo]);
+        const response = await fetch(URL_GOOGLE_SCRIPT, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'delete', id: id })
+        });
+        
+        const res = await response.json();
+        if (res.status === 'success') {
+            listarServiciosAdmin();
+            alert("Servicio eliminado con éxito.");
+        } else {
+            throw new Error(res.message);
         }
-
-        listarServiciosAdmin();
-        alert("Servicio eliminado con éxito.");
-
     } catch (error) {
-        console.error("Error al eliminar:", error);
-        alert("No se pudo eliminar el servicio: " + error.message);
+        alert("No se pudo eliminar: " + error.message);
     }
 };
 
-// --- 3. LÓGICA PARA CREAR / SUBIR NUEVO SERVICIO ---
-formulario.addEventListener('submit', async (e) => {
+// --- 3. LÓGICA PARA ENVIAR NUEVO SERVICIO ---
+formulario.addEventListener('submit', function(e) {
     e.preventDefault();
     btnGuardar.disabled = true;
-    btnGuardar.innerText = "Guardando...";
+    btnGuardar.innerText = "Guardando en Google Sheets...";
     divMensaje.innerHTML = "";
 
     const titulo = document.getElementById('titulo').value;
     const descripcion = document.getElementById('descripcion').value;
     const archivoImagen = document.getElementById('imagen').files[0];
 
-    try {
-        const nombreUnico = `${Date.now()}_${archivoImagen.name}`;
-        const { data: uploadData, error: uploadError } = await supabaseClient.storage
-            .from('imagenes-servicios')
-            .upload(nombreUnico, archivoImagen);
+    // Lector para transformar la imagen a texto binario Base64
+    const reader = new FileReader();
+    reader.readAsDataURL(archivoImagen);
+    reader.onload = async function() {
+        const base64Img = reader.result;
 
-        if (uploadError) throw uploadError;
+        try {
+            const response = await fetch(URL_GOOGLE_SCRIPT, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'create',
+                    titulo: titulo,
+                    descripcion: descripcion,
+                    imagenBase64: base64Img,
+                    imagenNombre: archivoImagen.name
+                })
+            });
 
-        const { data: urlData } = supabaseClient.storage
-            .from('imagenes-servicios')
-            .getPublicUrl(nombreUnico);
-        
-        const linkImagen = urlData.publicUrl;
+            const res = await response.json();
 
-        const { error: insertError } = await supabaseClient
-            .from('servicios')
-            .insert([{ titulo: titulo, descripcion: descripcion, imagen_url: linkImagen }]);
+            if (res.status === 'success') {
+                divMensaje.innerHTML = `<span class="exito">¡Guardado con éxito en Google Sheets!</span>`;
+                formulario.reset();
+                listarServiciosAdmin();
+            } else {
+                throw new Error(res.message);
+            }
 
-        if (insertError) throw insertError;
-
-        divMensaje.innerHTML = `<span class="exito">¡Guardado con éxito!</span>`;
-        formulario.reset();
-        listarServiciosAdmin();
-
-    } catch (error) {
-        console.error("Error:", error);
-        divMensaje.innerHTML = `<span class="error">Error: ${error.message}</span>`;
-    } finally {
-        btnGuardar.disabled = false;
-        btnGuardar.innerText = "Guardar Servicio";
-    }
+        } catch (error) {
+            console.error(error);
+            divMensaje.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+        } finally {
+            btnGuardar.disabled = false;
+            btnGuardar.innerText = "Guardar Servicio";
+        }
+    };
 });
 
-// Arrancar la lista al cargar
 listarServiciosAdmin();
