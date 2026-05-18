@@ -3,17 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración | NexMant</title>
+    <title>Panel de Control | NexMant</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilos exclusivos para el panel */
-        .admin-container { max-width: 600px; margin: 50px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--color-primario); }
+        .dashboard { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; max-width: 1300px; margin: 40px auto; padding: 0 20px; }
+        @media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } }
+        
+        .panel-form { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); height: fit-content; }
+        .panel-lista { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--color-primario); }
         .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
-        textarea.form-control { resize: vertical; min-height: 100px; }
-        .btn-submit { background-color: var(--color-primario); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%; }
+        
+        .btn-submit { background-color: var(--color-primario); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%; }
         .btn-submit:hover { background-color: var(--color-secundario); }
+        
+        /* Tabla/Lista de gestión */
+        .admin-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; gap: 15px; }
+        .admin-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+        .admin-item-info { flex-grow: 1; }
+        .admin-item-info h4 { margin-0: 0; color: var(--color-primario); }
+        .admin-item-info p { margin: 0; font-size: 0.85rem; color: #666; }
+        
+        .btn-danger { background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+        .btn-danger:hover { background-color: #bd2130; }
+        
         #mensaje { margin-top: 15px; font-weight: bold; text-align: center; }
         .exito { color: #25D366; }
         .error { color: red; }
@@ -21,29 +36,40 @@
 </head>
 <body style="background-color: var(--color-fondo-alt);">
 
-    <div class="admin-container">
-        <h2>Cargar Nuevo Servicio</h2>
-        <p style="margin-bottom: 20px; color: #666;">Completá los datos y subí una foto del trabajo.</p>
+    <div style="background: var(--color-primario); color: white; padding: 20px; text-align: center;">
+        <h2>Panel de Administración - NexMant</h2>
+        <p>Gestión de contenidos en tiempo real</p>
+    </div>
 
-        <form id="form-servicio">
-            <div class="form-group">
-                <label for="titulo">Título del Servicio</label>
-                <input type="text" id="titulo" class="form-control" placeholder="Ej: Instalación Eléctrica" required>
+    <div class="dashboard">
+        <div class="panel-form">
+            <h3>Cargar Nuevo Servicio</h3>
+            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+            <form id="form-servicio">
+                <div class="form-group">
+                    <label for="titulo">Título del Servicio</label>
+                    <input type="text" id="titulo" class="form-control" placeholder="Ej: Pintura de obra" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" class="form-control" style="min-height: 80px;" placeholder="Detalles..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Foto del Trabajo</label>
+                    <input type="file" id="imagen" class="form-control" accept="image/png, image/jpeg" required>
+                </div>
+                <button type="submit" class="btn-submit" id="btn-guardar">Guardar Servicio</button>
+                <div id="mensaje"></div>
+            </form>
+        </div>
+
+        <div class="panel-lista">
+            <h3>Servicios Activos en la Web</h3>
+            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+            <div id="lista-servicios-admin">
+                <p style="color: #999; text-align: center;">Cargando servicios...</p>
             </div>
-
-            <div class="form-group">
-                <label for="descripcion">Descripción</label>
-                <textarea id="descripcion" class="form-control" placeholder="Detalles del trabajo..." required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="imagen">Foto del Trabajo</label>
-                <input type="file" id="imagen" class="form-control" accept="image/png, image/jpeg" required>
-            </div>
-
-            <button type="submit" class="btn-submit" id="btn-guardar">Guardar Servicio</button>
-            <div id="mensaje"></div>
-        </form>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
