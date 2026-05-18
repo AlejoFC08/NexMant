@@ -6,9 +6,9 @@
 :root {
     --color-primario: #0A1B2F; /* Azul oscuro NexMant */
     --color-secundario: #8A8D91; /* Gris NexMant */
-    --color-acento: #25D366; /* Verde WhatsApp para el botón principal */
+    --color-acento: #25D366; /* Verde WhatsApp */
     --color-fondo: #FFFFFF;
-    --color-fondo-alt: #F4F5F7; /* Gris muy clarito para separar secciones */
+    --color-fondo-alt: #F4F5F7; /* Gris muy clarito */
     --color-texto: #333333;
     --color-texto-claro: #FFFFFF;
     --fuente-principal: 'Montserrat', sans-serif;
@@ -35,121 +35,166 @@ h1, h2, h3 {
     font-weight: 700;
 }
 
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-padding {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.bg-alt {
+    background-color: var(--color-fondo-alt);
+}
+
 /* =========================================
-   ENCABEZADO / HERO SECTION
+   ENCABEZADO / NAVBAR
    ========================================= */
-.hero {
+header {
+    background-color: var(--color-primario);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    color: var(--color-texto-claro);
+    font-size: 1.8rem;
+}
+
+nav a {
+    color: var(--color-texto-claro);
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--color-secundario);
+}
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
+.hero-section {
     background-color: var(--color-primario);
     color: var(--color-texto-claro);
-    padding: 100px 20px;
+    padding: 120px 20px;
     text-align: center;
-    /* Si querés poner una foto de fondo con una capa oscura encima, usá esto: */
-    /* background: linear-gradient(rgba(10, 27, 47, 0.85), rgba(10, 27, 47, 0.85)), url('foto-fondo.jpg') center/cover; */
 }
 
-.hero h1 {
+.hero-content h2 {
     color: var(--color-texto-claro);
-    font-size: 3.5rem;
+    font-size: 3rem;
     margin-bottom: 15px;
-    letter-spacing: 2px;
 }
 
-.hero p {
+.hero-content p {
     font-size: 1.2rem;
     margin-bottom: 30px;
-    color: var(--color-secundario); /* El gris del logo resalta bien acá */
+    color: #b0b3b8;
 }
 
-/* Botón principal (WhatsApp) */
-.btn-whatsapp {
+.btn-principal {
     display: inline-block;
     background-color: var(--color-acento);
     color: var(--color-texto-claro);
-    padding: 15px 30px;
+    padding: 15px 35px;
     text-decoration: none;
     font-weight: 600;
     border-radius: 5px;
     font-size: 1.1rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-.btn-whatsapp:hover {
+.btn-principal:hover {
     background-color: #1EBE55;
     transform: translateY(-2px);
 }
 
 /* =========================================
-   SECCIÓN NOSOTROS
+   SECCIÓN NOSOTROS Y SERVICIOS
    ========================================= */
-.about-section {
-    padding: 80px 20px;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.about-section h2 {
+#nosotros h2, #servicios h2 {
     font-size: 2.2rem;
     margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
-.about-section p {
+#texto-nosotros {
     font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
     color: #555;
 }
 
-/* =========================================
-   SECCIÓN SERVICIOS
-   ========================================= */
-.services-section {
-    background-color: var(--color-fondo-alt);
-    padding: 80px 20px;
-    text-align: center;
-}
-
-.services-section h2 {
-    font-size: 2.2rem;
+.subtitle {
     margin-bottom: 40px;
-    text-transform: uppercase;
+    color: #666;
 }
 
+/* Grilla y tarjetas de servicios */
 .services-grid {
     display: grid;
-    /* Grid responsivo: tarjetas de mín 280px, se ajustan solas al ancho */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    max-width: 1100px;
-    margin: 0 auto;
+    margin-top: 20px;
 }
 
 .service-card {
     background-color: var(--color-fondo);
-    padding: 30px 20px;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    border-top: 4px solid var(--color-primario); /* Detalle azul arriba */
+    border-top: 4px solid var(--color-primario);
     transition: transform 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
 }
 
 .service-card:hover {
     transform: translateY(-5px);
 }
 
-.service-card h3 {
-    margin-bottom: 15px;
+.service-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.service-card-content {
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.service-card-content h3 {
+    margin-bottom: 12px;
     font-size: 1.4rem;
 }
 
-.service-card p {
-    margin-bottom: 25px;
+.service-card-content p {
+    margin-bottom: 20px;
     color: #666;
     font-size: 0.95rem;
 }
 
-/* Botón secundario para los servicios */
 .btn-cotizar {
     display: inline-block;
     background-color: var(--color-primario);
@@ -158,20 +203,67 @@ h1, h2, h3 {
     text-decoration: none;
     font-weight: 600;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    text-align: center;
+    transition: background-color 0.3s;
 }
 
 .btn-cotizar:hover {
-    background-color: var(--color-secundario); /* Al pasar el mouse cambia al gris del logo */
+    background-color: var(--color-secundario);
 }
 
 /* =========================================
-   PIE DE PÁGINA (FOOTER)
+   FOOTER
    ========================================= */
 footer {
     background-color: var(--color-primario);
     color: var(--color-secundario);
     text-align: center;
-    padding: 20px;
+    padding: 40px 20px;
     font-size: 0.9rem;
 }
+
+/* =========================================
+   ESTILOS EXCLUSIVOS EXTRANJEROS AL PANEL ADMIN
+   ========================================= */
+.admin-header {
+    background: var(--color-primario);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+@media (max-width: 900px) { 
+    .dashboard { grid-template-columns: 1fr; } 
+}
+
+.panel-form { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); height: fit-content; }
+.panel-lista { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--color-primario); }
+.form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+
+.btn-submit { background-color: var(--color-primario); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%; }
+.btn-submit:hover { background-color: var(--color-secundario); }
+
+.admin-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; gap: 15px; }
+.admin-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+.admin-item-info { flex-grow: 1; }
+.admin-item-info h4 { margin: 0; color: var(--color-primario); }
+.admin-item-info p { margin: 0; font-size: 0.85rem; color: #666; }
+
+.btn-danger { background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+.btn-danger:hover { background-color: #bd2130; }
+
+#mensaje { margin-top: 15px; font-weight: bold; text-align: center; }
+.exito { color: #25D366; }
+.error { color: red; }

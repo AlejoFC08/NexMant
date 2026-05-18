@@ -5,38 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control | NexMant</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .dashboard { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; max-width: 1300px; margin: 40px auto; padding: 0 20px; }
-        @media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } }
-        
-        .panel-form { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); height: fit-content; }
-        .panel-lista { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--color-primario); }
-        .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
-        
-        .btn-submit { background-color: var(--color-primario); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%; }
-        .btn-submit:hover { background-color: var(--color-secundario); }
-        
-        /* Tabla/Lista de gestión */
-        .admin-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; gap: 15px; }
-        .admin-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
-        .admin-item-info { flex-grow: 1; }
-        .admin-item-info h4 { margin-0: 0; color: var(--color-primario); }
-        .admin-item-info p { margin: 0; font-size: 0.85rem; color: #666; }
-        
-        .btn-danger { background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
-        .btn-danger:hover { background-color: #bd2130; }
-        
-        #mensaje { margin-top: 15px; font-weight: bold; text-align: center; }
-        .exito { color: #25D366; }
-        .error { color: red; }
-    </style>
 </head>
 <body style="background-color: var(--color-fondo-alt);">
 
-    <div style="background: var(--color-primario); color: white; padding: 20px; text-align: center;">
+    <div class="admin-header">
         <h2>Panel de Administración - NexMant</h2>
         <p>Gestión de contenidos en tiempo real</p>
     </div>
