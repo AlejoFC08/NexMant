@@ -267,3 +267,61 @@ footer {
 #mensaje { margin-top: 15px; font-weight: bold; text-align: center; }
 .exito { color: #25D366; }
 .error { color: red; }
+
+
+/* =========================================
+   EFECTO ACORDEÓN INTERACTIVO PARA TARJETAS
+   ========================================= */
+.service-card {
+    cursor: pointer;
+    position: relative;
+}
+
+/* Escondemos la caja de contenido por defecto */
+.service-card-content p, 
+.service-card-content .btn-cotizar {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    transition: all 0.4s ease-in-out;
+}
+
+/* Añadimos un indicador visual (una flechita o texto sutil de ayuda) */
+.service-card::after {
+    content: '▼ Tocá para ver más';
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-size: 0.75rem;
+    color: var(--color-primario);
+    font-weight: 600;
+    opacity: 0.7;
+    transition: transform 0.3s ease;
+}
+
+/* Cuando la tarjeta tiene la clase .active, mostramos los elementos con suavidad */
+.service-card.active {
+    border-top-color: var(--color-acento);
+}
+
+.service-card.active::after {
+    content: '▲';
+    bottom: unset;
+    top: 15px;
+    color: var(--color-acento);
+}
+
+.service-card.active .service-card-content p {
+    max-height: 500px; /* Un tamaño máximo seguro */
+    opacity: 1;
+    margin-top: 12px;
+    margin-bottom: 20px;
+}
+
+.service-card.active .service-card-content .btn-cotizar {
+    max-height: 50px;
+    opacity: 1;
+    padding: 10px 20px;
+}
