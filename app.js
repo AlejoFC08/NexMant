@@ -1,5 +1,5 @@
-// URL de tu implementación de Google Apps Script
-const URL_GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbz-3Z-IqCqZja3vesxOgsyw63Z9pbr4qrNWMbVra5TjWmJUyFOnwKspnJQRwpjWzXnF/exec';
+// URL oficial de Google Apps Script (Personal)
+const URL_GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbz8jOwMXlHLB27ozeCOLJbj6q9uhox9hR_B1KyK5eNoyQnDpZ65i941LL1YYyakPcOO9g/exec';
 
 const contenedorServicios = document.getElementById('contenedor-servicios');
 

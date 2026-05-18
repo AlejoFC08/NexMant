@@ -1,5 +1,5 @@
-// URL de tu implementación de Google Apps Script
-const URL_GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbz-3Z-IqCqZja3vesxOgsyw63Z9pbr4qrNWMbVra5TjWmJUyFOnwKspnJQRwpjWzXnF/exec';
+// URL oficial de Google Apps Script (Personal)
+const URL_GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbz8jOwMXlHLB27ozeCOLJbj6q9uhox9hR_B1KyK5eNoyQnDpZ65i941LL1YYyakPcOO9g/exec';
 
 const formulario = document.getElementById('form-servicio');
 const btnGuardar = document.getElementById('btn-guardar');
@@ -19,7 +19,6 @@ async function listarServiciosAdmin() {
 
         listaAdmin.innerHTML = ''; 
 
-        // .reverse() para mostrar el más nuevo arriba de todo
         servicios.reverse().forEach(serv => {
             const item = document.createElement('div');
             item.className = 'admin-item';
@@ -50,6 +49,10 @@ window.eliminarServicio = async function(id) {
     try {
         const response = await fetch(URL_GOOGLE_SCRIPT, {
             method: 'POST',
+            redirect: 'follow', 
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8", 
+            },
             body: JSON.stringify({ action: 'delete', id: id })
         });
         
@@ -76,7 +79,6 @@ formulario.addEventListener('submit', function(e) {
     const descripcion = document.getElementById('descripcion').value;
     const archivoImagen = document.getElementById('imagen').files[0];
 
-    // Lector para transformar la imagen a texto binario Base64
     const reader = new FileReader();
     reader.readAsDataURL(archivoImagen);
     reader.onload = async function() {
@@ -85,6 +87,10 @@ formulario.addEventListener('submit', function(e) {
         try {
             const response = await fetch(URL_GOOGLE_SCRIPT, {
                 method: 'POST',
+                redirect: 'follow',
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8", 
+                },
                 body: JSON.stringify({
                     action: 'create',
                     titulo: titulo,
@@ -106,7 +112,7 @@ formulario.addEventListener('submit', function(e) {
 
         } catch (error) {
             console.error(error);
-            divMensaje.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+            divMensaje.innerHTML = `<span class="error">Error: No se pudo conectar con el servidor.</span>`;
         } finally {
             btnGuardar.disabled = false;
             btnGuardar.innerText = "Guardar Servicio";
