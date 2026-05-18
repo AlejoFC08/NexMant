@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | NexMant</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos exclusivos para el panel */
+        .admin-container { max-width: 600px; margin: 50px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--color-primario); }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+        textarea.form-control { resize: vertical; min-height: 100px; }
+        .btn-submit { background-color: var(--color-primario); color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%; }
+        .btn-submit:hover { background-color: var(--color-secundario); }
+        #mensaje { margin-top: 15px; font-weight: bold; text-align: center; }
+        .exito { color: #25D366; }
+        .error { color: red; }
+    </style>
+</head>
+<body style="background-color: var(--color-fondo-alt);">
+
+    <div class="admin-container">
+        <h2>Cargar Nuevo Servicio</h2>
+        <p style="margin-bottom: 20px; color: #666;">Completá los datos y subí una foto del trabajo.</p>
+
+        <form id="form-servicio">
+            <div class="form-group">
+                <label for="titulo">Título del Servicio</label>
+                <input type="text" id="titulo" class="form-control" placeholder="Ej: Instalación Eléctrica" required>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" class="form-control" placeholder="Detalles del trabajo..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="imagen">Foto del Trabajo</label>
+                <input type="file" id="imagen" class="form-control" accept="image/png, image/jpeg" required>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-guardar">Guardar Servicio</button>
+            <div id="mensaje"></div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
