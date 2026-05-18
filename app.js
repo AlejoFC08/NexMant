@@ -1,30 +1,45 @@
-// URL de tu aplicación web de Google Apps Script
-const apiURL = 'https://script.google.com/macros/s/AKfycbz-3Z-IqCqZja3vesxOgsyw63Z9pbr4qrNWMbVra5TjWmJUyFOnwKspnJQRwpjWzXnF/exec'; 
+// 1. Inicializar Supabase
+const supabaseUrl = 'https://vngeqappllasvobqolie.supabase.co';
+const supabaseKey = 'sb_publishable_AaIfYPmLCIDYnUXutFBEkg_8nIKe-Lv'; // Pegá tu llave acá
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
 const contenedorServicios = document.getElementById('contenedor-servicios');
 
+// 2. Función para traer los servicios desde la base de datos
 async function cargarServicios() {
     try {
-        const respuesta = await fetch(apiURL);
-        const servicios = await respuesta.json();
+        // Hacemos la consulta SQL a la tabla "servicios"
+        const { data: servicios, error } = await supabase
+            .from('servicios')
+            .select('*')
+            .order('creado_en', { ascending: true }); // Ordena por fecha
 
-        // Limpiamos el contenedor (borra las tarjetas de ejemplo del HTML)
+        if (error) throw error;
+
+        // Limpiamos el contenedor
         contenedorServicios.innerHTML = '';
-
-        // Número oficial de NexMant con código de país para que funcione el link
         const numeroWa = '5491165778502';
 
+        // Recorremos los datos que llegaron
         servicios.forEach(servicio => {
             const tarjeta = document.createElement('div');
             tarjeta.className = 'service-card';
 
-            // Armamos el link de WhatsApp dinámico para cada servicio
             const mensaje = `Hola NexMant, necesito cotizar un trabajo de ${servicio.titulo}.`;
             const urlWa = `https://wa.me/${numeroWa}?text=${encodeURIComponent(mensaje)}`;
 
+            // Verificamos si el servicio tiene foto
+            const imagenHtml = servicio.imagen_url 
+                ? `<img src="${servicio.imagen_url}" alt="${servicio.titulo}" class="service-img">` 
+                : '';
+
             tarjeta.innerHTML = `
-                <h3>${servicio.titulo}</h3>
-                <p>${servicio.descripcion}</p>
-                <a href="${urlWa}" target="_blank" class="btn-cotizar">Consultar</a>
+                ${imagenHtml}
+                <div class="service-card-content">
+                    <h3>${servicio.titulo}</h3>
+                    <p>${servicio.descripcion}</p>
+                    <a href="${urlWa}" target="_blank" class="btn-cotizar">Consultar</a>
+                </div>
             `;
             
             contenedorServicios.appendChild(tarjeta);
