@@ -325,3 +325,135 @@ footer {
     opacity: 1;
     padding: 10px 20px;
 }
+/* =========================================
+   SECCIÓN CONTACTO (ESTILO FILAS/PÍLDORAS)
+   ========================================= */
+.contacto-listado {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 700px;
+    margin: 40px auto 0; /* Lo centra en la página */
+}
+
+.contacto-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f8f9fa; /* Fondo gris muy sutil */
+    padding: 20px 30px;
+    border-radius: 50px; /* Le da esa forma redondeada de "píldora" */
+    border: 1px solid #eaeaea;
+    transition: all 0.3s ease;
+}
+
+.contacto-fila:hover {
+    background-color: #ffffff;
+    border-color: var(--color-primario);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+    transform: scale(1.02);
+}
+
+.contacto-fila.fila-wsp:hover {
+    border-color: #25D366;
+}
+
+.contacto-info {
+    text-align: left;
+}
+
+.contacto-info h3 {
+    margin: 0 0 5px 0;
+    color: var(--color-primario);
+    font-size: 1.25rem;
+}
+
+.contacto-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.btn-pill {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    background-color: var(--color-primario);
+    transition: background 0.3s ease;
+    white-space: nowrap; /* Evita que el texto del botón se rompa en dos líneas */
+    margin-left: 20px;
+}
+
+.btn-pill:hover {
+    background-color: var(--color-acento);
+}
+
+.btn-pill.btn-wsp {
+    background-color: #25D366;
+}
+
+.btn-pill.btn-wsp:hover {
+    background-color: #128C7E;
+}
+
+/* Adaptación para pantallas de celulares */
+@media (max-width: 600px) {
+    .contacto-fila {
+        flex-direction: column;
+        text-align: center;
+        border-radius: 20px; /* Menos redondeado en celular para ganar espacio */
+        padding: 25px 20px;
+    }
+    
+    .contacto-info {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-pill {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+/* =========================================
+   BOTÓN FLOTANTE FIJO DE WHATSAPP
+   ========================================= */
+.wpp-flotante {
+    position: fixed;
+    bottom: 25px;      /* Distancia desde el borde de abajo */
+    right: 25px;       /* Distancia desde el borde derecho */
+    width: 60px;
+    height: 60px;
+    background-color: #25D366; /* Verde característico de WhatsApp */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 9999;     /* Garantiza que siempre quede arriba de todo el contenido */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animación elástica */
+}
+
+/* Efecto al pasar el mouse por arriba */
+.wpp-flotante:hover {
+    background-color: #128C7E; /* Verde más oscuro al posarse */
+    transform: scale(1.1) rotate(8deg); /* Se agranda un poquito y gira sutilmente */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Adaptación para pantallas chicas de celulares */
+@media (max-width: 480px) {
+    .wpp-flotante {
+        bottom: 20px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+    }
+}
