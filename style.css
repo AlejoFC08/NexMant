@@ -1,16 +1,16 @@
 /* =========================================
-   VARIABLES DE COLOR Y TIPOGRAFÍA
+   VARIABLES DE COLOR Y TIPOGRAFÍA (REGLA AZUL/BLANCO)
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 :root {
-    --color-primario: #0A1B2F; /* Azul oscuro NexMant */
-    --color-secundario: #8A8D91; /* Gris NexMant */
-    --color-acento: #25D366; /* Verde WhatsApp */
-    --color-fondo: #FFFFFF;
-    --color-fondo-alt: #F4F5F7; /* Gris muy clarito */
-    --color-texto: #333333;
-    --color-texto-claro: #FFFFFF;
+    --color-primario: #0A1B2F;    /* Azul oscuro NexMant */
+    --color-acento: #1C5186;      /* Azul brillante para botones y detalles */
+    --color-secundario: #42678D;  /* Azul intermedio (Reemplaza a todos los grises de texto) */
+    --color-fondo: #FFFFFF;       /* Blanco puro */
+    --color-fondo-alt: #F2F6FA;   /* Blanco azulado muy sutil para alternar secciones */
+    --color-texto: #0A1B2F;       /* Todo el texto principal en azul oscuro */
+    --color-texto-claro: #FFFFFF; /* Texto blanco sobre fondos oscuros */
     --fuente-principal: 'Montserrat', sans-serif;
 }
 
@@ -84,7 +84,7 @@ nav a {
 }
 
 nav a:hover {
-    color: var(--color-secundario);
+    color: var(--color-acento);
 }
 
 /* =========================================
@@ -106,7 +106,7 @@ nav a:hover {
 .hero-content p {
     font-size: 1.2rem;
     margin-bottom: 30px;
-    color: #b0b3b8;
+    color: #D9E6F2; /* Blanco azulado sutil */
 }
 
 .btn-principal {
@@ -122,7 +122,7 @@ nav a:hover {
 }
 
 .btn-principal:hover {
-    background-color: #1EBE55;
+    background-color: #123C66; /* Azul aún más oscuro al posar el mouse */
     transform: translateY(-2px);
 }
 
@@ -138,12 +138,12 @@ nav a:hover {
     font-size: 1.1rem;
     max-width: 800px;
     margin: 0 auto;
-    color: #555;
+    color: var(--color-secundario);
 }
 
 .subtitle {
     margin-bottom: 40px;
-    color: #666;
+    color: var(--color-secundario);
 }
 
 /* Grilla y tarjetas de servicios */
@@ -157,7 +157,7 @@ nav a:hover {
 .service-card {
     background-color: var(--color-fondo);
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 15px rgba(10, 27, 47, 0.08); /* Sombra con base azul */
     border-top: 4px solid var(--color-primario);
     transition: transform 0.3s ease;
     overflow: hidden;
@@ -191,7 +191,7 @@ nav a:hover {
 
 .service-card-content p {
     margin-bottom: 20px;
-    color: #666;
+    color: var(--color-secundario);
     font-size: 0.95rem;
 }
 
@@ -208,66 +208,8 @@ nav a:hover {
 }
 
 .btn-cotizar:hover {
-    background-color: var(--color-secundario);
+    background-color: var(--color-acento);
 }
-
-/* =========================================
-   FOOTER
-   ========================================= */
-footer {
-    background-color: var(--color-primario);
-    color: var(--color-secundario);
-    text-align: center;
-    padding: 40px 20px;
-    font-size: 0.9rem;
-}
-
-/* =========================================
-   ESTILOS EXCLUSIVOS EXTRANJEROS AL PANEL ADMIN
-   ========================================= */
-.admin-header {
-    background: var(--color-primario);
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
-
-.dashboard {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 30px;
-    max-width: 1300px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-@media (max-width: 900px) { 
-    .dashboard { grid-template-columns: 1fr; } 
-}
-
-.panel-form { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); height: fit-content; }
-.panel-lista { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--color-primario); }
-.form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
-
-.btn-submit { background-color: var(--color-primario); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%; }
-.btn-submit:hover { background-color: var(--color-secundario); }
-
-.admin-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; gap: 15px; }
-.admin-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
-.admin-item-info { flex-grow: 1; }
-.admin-item-info h4 { margin: 0; color: var(--color-primario); }
-.admin-item-info p { margin: 0; font-size: 0.85rem; color: #666; }
-
-.btn-danger { background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
-.btn-danger:hover { background-color: #bd2130; }
-
-#mensaje { margin-top: 15px; font-weight: bold; text-align: center; }
-.exito { color: #25D366; }
-.error { color: red; }
-
 
 /* =========================================
    EFECTO ACORDEÓN INTERACTIVO PARA TARJETAS
@@ -277,7 +219,6 @@ footer {
     position: relative;
 }
 
-/* Escondemos la caja de contenido por defecto */
 .service-card-content p, 
 .service-card-content .btn-cotizar {
     max-height: 0;
@@ -288,7 +229,6 @@ footer {
     transition: all 0.4s ease-in-out;
 }
 
-/* Añadimos un indicador visual (una flechita o texto sutil de ayuda) */
 .service-card::after {
     content: '▼ Tocá para ver más';
     position: absolute;
@@ -301,7 +241,6 @@ footer {
     transition: transform 0.3s ease;
 }
 
-/* Cuando la tarjeta tiene la clase .active, mostramos los elementos con suavidad */
 .service-card.active {
     border-top-color: var(--color-acento);
 }
@@ -314,7 +253,7 @@ footer {
 }
 
 .service-card.active .service-card-content p {
-    max-height: 500px; /* Un tamaño máximo seguro */
+    max-height: 500px; 
     opacity: 1;
     margin-top: 12px;
     margin-bottom: 20px;
@@ -325,6 +264,7 @@ footer {
     opacity: 1;
     padding: 10px 20px;
 }
+
 /* =========================================
    SECCIÓN CONTACTO (ESTILO FILAS/PÍLDORAS)
    ========================================= */
@@ -333,29 +273,25 @@ footer {
     flex-direction: column;
     gap: 15px;
     max-width: 700px;
-    margin: 40px auto 0; /* Lo centra en la página */
+    margin: 40px auto 0;
 }
 
 .contacto-fila {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f8f9fa; /* Fondo gris muy sutil */
+    background-color: var(--color-fondo-alt); 
     padding: 20px 30px;
-    border-radius: 50px; /* Le da esa forma redondeada de "píldora" */
-    border: 1px solid #eaeaea;
+    border-radius: 50px; 
+    border: 1px solid #D9E6F2;
     transition: all 0.3s ease;
 }
 
 .contacto-fila:hover {
-    background-color: #ffffff;
-    border-color: var(--color-primario);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+    background-color: var(--color-fondo);
+    border-color: var(--color-acento);
+    box-shadow: 0 5px 15px rgba(10, 27, 47, 0.08);
     transform: scale(1.02);
-}
-
-.contacto-fila.fila-wsp:hover {
-    border-color: #25D366;
 }
 
 .contacto-info {
@@ -370,7 +306,7 @@ footer {
 
 .contacto-info p {
     margin: 0;
-    color: #666;
+    color: var(--color-secundario);
     font-size: 0.95rem;
 }
 
@@ -383,7 +319,7 @@ footer {
     color: white;
     background-color: var(--color-primario);
     transition: background 0.3s ease;
-    white-space: nowrap; /* Evita que el texto del botón se rompa en dos líneas */
+    white-space: nowrap; 
     margin-left: 20px;
 }
 
@@ -391,64 +327,43 @@ footer {
     background-color: var(--color-acento);
 }
 
-.btn-pill.btn-wsp {
-    background-color: #25D366;
+/* =========================================
+   FOOTER
+   ========================================= */
+footer {
+    background-color: var(--color-primario);
+    color: #D9E6F2;
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 0.9rem;
 }
-
-.btn-pill.btn-wsp:hover {
-    background-color: #128C7E;
-}
-
-/* Adaptación para pantallas de celulares */
-@media (max-width: 600px) {
-    .contacto-fila {
-        flex-direction: column;
-        text-align: center;
-        border-radius: 20px; /* Menos redondeado en celular para ganar espacio */
-        padding: 25px 20px;
-    }
-    
-    .contacto-info {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .btn-pill {
-        margin-left: 0;
-        width: 100%;
-        text-align: center;
-    }
-}
-
 
 /* =========================================
-   BOTÓN FLOTANTE FIJO DE WHATSAPP
+   BOTÓN FLOTANTE FIJO DE WHATSAPP (ÚNICA EXCEPCIÓN VERDE)
    ========================================= */
 .wpp-flotante {
     position: fixed;
-    bottom: 25px;      /* Distancia desde el borde de abajo */
-    right: 25px;       /* Distancia desde el borde derecho */
+    bottom: 25px;      
+    right: 25px;       
     width: 60px;
     height: 60px;
-    background-color: #25D366; /* Verde característico de WhatsApp */
+    background-color: #25D366; 
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    z-index: 9999;     /* Garantiza que siempre quede arriba de todo el contenido */
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animación elástica */
+    z-index: 9999;     
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
-/* Efecto al pasar el mouse por arriba */
 .wpp-flotante:hover {
-    background-color: #128C7E; /* Verde más oscuro al posarse */
-    transform: scale(1.1) rotate(8deg); /* Se agranda un poquito y gira sutilmente */
+    background-color: #128C7E; 
+    transform: scale(1.1) rotate(8deg); 
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 
-/* Adaptación para pantallas chicas de celulares */
 @media (max-width: 480px) {
     .wpp-flotante {
         bottom: 20px;
@@ -458,108 +373,57 @@ footer {
     }
 }
 
+/* =========================================
+   ESTILOS EXCLUSIVOS AL PANEL ADMIN (INTERNO)
+   ========================================= */
+.admin-header { background: var(--color-primario); color: white; padding: 20px; text-align: center; }
+.dashboard { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; max-width: 1300px; margin: 40px auto; padding: 0 20px; }
+@media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } }
+.panel-form { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(10,27,47,0.08); height: fit-content; }
+.panel-lista { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(10,27,47,0.08); }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--color-primario); }
+.form-control { width: 100%; padding: 10px; border: 1px solid #D9E6F2; border-radius: 4px; font-family: inherit; }
+.btn-submit { background-color: var(--color-primario); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%; }
+.btn-submit:hover { background-color: var(--color-acento); }
+.admin-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--color-fondo-alt); gap: 15px; }
+.admin-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+.admin-item-info { flex-grow: 1; }
+.admin-item-info h4 { margin: 0; color: var(--color-primario); }
+.admin-item-info p { margin: 0; font-size: 0.85rem; color: var(--color-secundario); }
+/* El botón de eliminar se mantiene rojo solo por advertencia interna de borrado */
+.btn-danger { background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+.btn-danger:hover { background-color: #bd2130; }
+#mensaje { margin-top: 15px; font-weight: bold; text-align: center; }
+.exito { color: var(--color-acento); }
+.error { color: #dc3545; }
 
 /* =========================================
    DISEÑO RESPONSIVE (CELULARES Y TABLETS)
    ========================================= */
 @media (max-width: 768px) {
-    /* 1. Encabezado y Menú */
-    .navbar-container {
-        flex-direction: column;
-        text-align: center;
-        padding: 15px 20px;
-    }
-    
-    .navbar-container nav {
-        margin-top: 15px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px 20px; /* Crea un espacio parejo entre palabras */
-    }
-
-    .navbar-container nav a {
-        margin-left: 0; /* ¡Acá está la magia! Anulamos el empuje de la compu */
-        font-size: 0.95rem; /* Letra apenas más chica para que quede elegante */
-    }
-
-    /* 2. Sección Principal (Inicio) */
-    .hero-section {
-        padding: 80px 20px;
-    }
-    
-    .hero-content h2 {
-        font-size: 2.2rem; /* Achica el título gigante */
-    }
-    
-    .hero-content p {
-        font-size: 1rem;
-    }
-
-    /* 3. Espaciado general para no desperdiciar pantalla */
-    .section-padding {
-        padding: 50px 20px;
-    }
-
-    h2 {
-        font-size: 1.8rem;
-    }
-
-    /* 4. Grilla de Servicios (1 sola columna) */
-    .services-grid {
-        grid-template-columns: 1fr; /* Fuerza a que las tarjetas ocupen el 100% del ancho */
-        gap: 20px;
-    }
-
-    /* 5. Ajuste de las tarjetas de servicio */
-    .service-card {
-        margin-bottom: 10px;
-    }
-    
-    .service-card-content {
-        padding: 15px;
-    }
+    .navbar-container { flex-direction: column; text-align: center; padding: 15px 20px; }
+    .navbar-container nav { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px 20px; }
+    .navbar-container nav a { margin-left: 0; font-size: 0.95rem; }
+    .hero-section { padding: 80px 20px; }
+    .hero-content h2 { font-size: 2.2rem; }
+    .hero-content p { font-size: 1rem; }
+    .section-padding { padding: 50px 20px; }
+    h2 { font-size: 1.8rem; }
+    .services-grid { grid-template-columns: 1fr; gap: 20px; }
+    .service-card { margin-bottom: 10px; }
+    .service-card-content { padding: 15px; }
 }
 
-/* Adaptación de píldoras para pantallas de celulares */
 @media (max-width: 600px) {
-.contacto-fila {
-        flex-direction: column;
-        text-align: center;
-        border-radius: 50px; /* ¡Acá le devolvemos la forma de píldora! */
-        padding: 25px 20px;
-    }
-    
-    .contacto-info {
-        text-align: center;
-        margin-bottom: 15px; 
-    }
-
-    .contacto-info h3 {
-        font-size: 1.15rem; 
-    }
-
-    .contacto-info p {
-        font-size: 0.85rem; 
-        line-height: 1.4;   
-    }
-
-    .btn-pill {
-        margin-left: 0;
-        width: 100%;
-        text-align: center;
-    }
+    .contacto-fila { flex-direction: column; text-align: center; border-radius: 50px; padding: 25px 20px; }
+    .contacto-info { text-align: center; margin-bottom: 15px; }
+    .contacto-info h3 { font-size: 1.15rem; }
+    .contacto-info p { font-size: 0.85rem; line-height: 1.4; }
+    .btn-pill { margin-left: 0; width: 100%; text-align: center; }
 }
 
-
-
-/* Ajustes extra para celulares muy chicos (ej: iPhone SE) */
 @media (max-width: 480px) {
-    .hero-content h2 {
-        font-size: 1.8rem;
-    }
-    
-    .navbar-container nav a {
-        font-size: 0.9rem;
-    }
+    .hero-content h2 { font-size: 1.8rem; }
+    .navbar-container nav a { font-size: 0.9rem; }
 }
