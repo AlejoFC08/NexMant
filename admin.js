@@ -1,15 +1,21 @@
 const URL_GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbz8jOwMXlHLB27ozeCOLJbj6q9uhox9hR_B1KyK5eNoyQnDpZ65i941LL1YYyakPcOO9g/exec';
 
+// selectores de servicios
 const formulario = document.getElementById('form-servicio');
 const btnGuardar = document.getElementById('btn-guardar');
 const divMensaje = document.getElementById('mensaje');
 const listaAdmin = document.getElementById('lista-servicios-admin');
 
-// Variables globales para controlar el estado de edición
+// selectores de trabajos
+const formularioTrabajo = document.getElementById('form-trabajo');
+const btnGuardarTrabajo = document.getElementById('btn-guardar-trabajo');
+const divMensajeTrabajo = document.getElementById('mensaje-trabajo');
+const listaTrabajosAdminCont = document.getElementById('lista-trabajos-admin');
+
 let todosLosServicios = [];
+let todosLosTrabajos = [];
 let idEditando = null;
 
-// Creamos dinámicamente un botón para poder cancelar la edición si el usuario se arrepiente
 const btnCancelar = document.createElement('button');
 btnCancelar.type = 'button';
 btnCancelar.className = 'btn-danger';
@@ -19,31 +25,42 @@ btnCancelar.style.display = 'none';
 btnCancelar.innerText = 'Cancelar Edición';
 formulario.appendChild(btnCancelar);
 
+// --- INTERRUPTOR DE PESTAÑAS (TABS) ---
+window.switchTab = function(tab) {
+    if (tab === 'servicios') {
+        document.getElementById('dashboard-servicios').style.display = 'grid';
+        document.getElementById('dashboard-trabajos').style.display = 'none';
+        document.getElementById('tab-servicios').classList.add('active');
+        document.getElementById('tab-trabajos').classList.remove('active');
+        listarServiciosAdmin();
+    } else {
+        document.getElementById('dashboard-servicios').style.display = 'none';
+        document.getElementById('dashboard-trabajos').style.display = 'grid';
+        document.getElementById('tab-servicios').classList.remove('active');
+        document.getElementById('tab-trabajos').classList.add('active');
+        listarTrabajosAdmin();
+    }
+};
+
+// --- OPERACIONES DE SERVICIOS ---
 async function listarServiciosAdmin() {
     try {
         const response = await fetch(URL_GOOGLE_SCRIPT);
         todosLosServicios = await response.json();
-
         if (!todosLosServicios || todosLosServicios.length === 0) {
-            listaAdmin.innerHTML = '<p style="color: #999; text-align: center;">No hay servicios cargados todavía.</p>';
+            listaAdmin.innerHTML = '<p style="color: #999; text-align: center;">No hay servicios cargados.</p>';
             return;
         }
-
         listaAdmin.innerHTML = ''; 
-
-        // Clonamos y damos vuelta el array para mostrar los más nuevos primero sin alterar el original
         [...todosLosServicios].reverse().forEach(serv => {
             const item = document.createElement('div');
             item.className = 'admin-item';
-
             let urlSegura = serv.imagen_url;
             if (urlSegura && urlSegura.includes("drive.google.com")) {
                 const fileId = urlSegura.split("id=")[1];
                 urlSegura = `https://drive.google.com/thumbnail?id=${fileId}&sz=400`;
             }
-
-            const imgTag = urlSegura ? `<img src="${urlSegura}">` : '<div style="width:60px;height:60px;background:#eee;border-radius:4px;"></div>';
-
+            const imgTag = urlSegura ? `<img src="${urlSegura}">` : '<div style="width:60px;height:60px;background:#eee;"></div>';
             item.innerHTML = `
                 ${imgTag}
                 <div class="admin-item-info">
@@ -57,126 +74,158 @@ async function listarServiciosAdmin() {
             `;
             listaAdmin.appendChild(item);
         });
-
-    } catch (error) {
-        console.error("Error al listar:", error);
-        listaAdmin.innerHTML = '<p style="color: red; text-align: center;">Error al cargar la lista desde Google Sheets.</p>';
-    }
+    } catch (e) { console.error(e); }
 }
 
-// Pasar los datos del servicio seleccionado al formulario de la izquierda
 window.activarModoEdicion = function(id) {
     const servicio = todosLosServicios.find(s => s.id == id);
     if (!servicio) return;
-
     idEditando = id;
     document.getElementById('titulo').value = servicio.titulo;
     document.getElementById('descripcion').value = servicio.descripcion;
-    
-    // Al editar la foto es opcional, removemos el 'required' por si quiere conservar la anterior
     document.getElementById('imagen').required = false; 
-    
     btnGuardar.innerText = "Actualizar Servicio";
-    btnGuardar.style.backgroundColor = "#25D366"; // Cambia a verde para indicar edición
     btnCancelar.style.display = 'block';
-    
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// Cancelar el estado de edición y limpiar el formulario
 btnCancelar.addEventListener('click', () => {
     idEditando = null;
     formulario.reset();
     document.getElementById('imagen').required = true;
     btnGuardar.innerText = "Guardar Servicio";
-    btnGuardar.style.backgroundColor = "var(--color-primario)";
     btnCancelar.style.display = 'none';
 });
 
 window.eliminarServicio = async function(id) {
-    if (!confirm("¿Estás seguro de que querés eliminar este servicio? Se borrará de la web inmediatamente.")) return;
-
+    if (!confirm("¿Borrar este servicio de la web?")) return;
     try {
         const response = await fetch(URL_GOOGLE_SCRIPT, {
             method: 'POST',
-            redirect: 'follow', 
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({ action: 'delete', id: id })
+            redirect: 'follow',
+            body: JSON.stringify({ action: 'delete', type: 'servicios', id: id })
         });
-        
         const res = await response.json();
         if (res.status === 'success') {
             if(idEditando === id) btnCancelar.click();
             listarServiciosAdmin();
-            alert("Servicio eliminado con éxito.");
-        } else {
-            throw new Error(res.message);
         }
-    } catch (error) {
-        alert("No se pudo eliminar: " + error.message);
-    }
+    } catch (e) { alert("Error al borrar"); }
 };
 
 formulario.addEventListener('submit', function(e) {
     e.preventDefault();
     btnGuardar.disabled = true;
-    btnGuardar.innerText = idEditando ? "Actualizando en Google Sheets..." : "Guardando en Google Sheets...";
-    divMensaje.innerHTML = "";
-
+    btnGuardar.innerText = "Guardando...";
     const titulo = document.getElementById('titulo').value;
     const descripcion = document.getElementById('descripcion').value;
     const archivoImagen = document.getElementById('imagen').files[0];
 
-    const ejecutarEnvio = async (base64Img = null, nombreImg = null) => {
+    const enviar = async (base64Img = null, nombreImg = null) => {
         try {
             const payload = {
                 action: idEditando ? 'update' : 'create',
+                type: 'servicios',
                 titulo: titulo,
                 descripcion: descripcion
             };
-
             if(idEditando) payload.id = idEditando;
-            if(base64Img) {
-                payload.imagenBase64 = base64Img;
-                payload.imagenNombre = nombreImg;
-            }
+            if(base64Img) { payload.imagenBase64 = base64Img; payload.imagenNombre = nombreImg; }
 
             const response = await fetch(URL_GOOGLE_SCRIPT, {
                 method: 'POST',
                 redirect: 'follow',
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
                 body: JSON.stringify(payload)
             });
-
             const res = await response.json();
-
             if (res.status === 'success') {
-                divMensaje.innerHTML = `<span class="exito">¡Procesado con éxito en Google Sheets!</span>`;
-                btnCancelar.click(); // Resetea el formulario por defecto
+                btnCancelar.click();
                 listarServiciosAdmin();
-            } else {
-                throw new Error(res.message);
             }
-
-        } catch (error) {
-            console.error(error);
-            divMensaje.innerHTML = `<span class="error">Error al procesar la solicitud.</span>`;
-        } finally {
-            btnGuardar.disabled = false;
-            btnGuardar.innerText = idEditando ? "Actualizar Servicio" : "Guardar Servicio";
-        }
+        } catch (error) { console.error(error); }
+        finally { btnGuardar.disabled = false; btnGuardar.innerText = "Guardar Servicio"; }
     };
 
     if (archivoImagen) {
         const reader = new FileReader();
         reader.readAsDataURL(archivoImagen);
-        reader.onload = function() {
-            ejecutarEnvio(reader.result, archivoImagen.name);
-        };
-    } else {
-        // Si estamos editando y no se eligió una foto nueva, procesa solo los textos
-        ejecutarEnvio();
-    }
+        reader.onload = function() { enviar(reader.result, archivoImagen.name); };
+    } else { enviar(); }
+});
+
+// --- OPERACIONES DE NUESTROS TRABAJOS ---
+async function listarTrabajosAdmin() {
+    try {
+        const response = await fetch(`${URL_GOOGLE_SCRIPT}?type=trabajos`);
+        todosLosTrabajos = await response.json();
+        if (!todosLosTrabajos || todosLosTrabajos.length === 0) {
+            listaTrabajosAdminCont.innerHTML = '<p style="color: #999; text-align: center;">No hay fotos cargadas todavía.</p>';
+            return;
+        }
+        listaTrabajosAdminCont.innerHTML = '';
+        [...todosLosTrabajos].reverse().forEach(trab => {
+            const item = document.createElement('div');
+            item.className = 'admin-item';
+            let urlSegura = trab.imagen_url;
+            if (urlSegura && urlSegura.includes("drive.google.com")) {
+                const fileId = urlSegura.split("id=")[1];
+                urlSegura = `https://drive.google.com/thumbnail?id=${fileId}&sz=400`;
+            }
+            item.innerHTML = `
+                <img src="${urlSegura}" style="width:80px; height:60px;">
+                <div class="admin-item-info">
+                    <p style="font-size:0.8rem; color:#666;">ID: ${trab.id}</p>
+                </div>
+                <button class="btn-danger" onclick="eliminarTrabajo(${trab.id})">Eliminar Foto</button>
+            `;
+            listaTrabajosAdminCont.appendChild(item);
+        });
+    } catch (e) { console.error(e); }
+}
+
+window.eliminarTrabajo = async function(id) {
+    if (!confirm("¿Estás seguro de que querés eliminar esta foto del carrusel?")) return;
+    try {
+        const response = await fetch(URL_GOOGLE_SCRIPT, {
+            method: 'POST',
+            redirect: 'follow',
+            body: JSON.stringify({ action: 'delete', type: 'trabajos', id: id })
+        });
+        const res = await response.json();
+        if (res.status === 'success') { listarTrabajosAdmin(); }
+    } catch (e) { alert("Error al eliminar"); }
+};
+
+formularioTrabajo.addEventListener('submit', function(e) {
+    e.preventDefault();
+    btnGuardarTrabajo.disabled = true;
+    btnGuardarTrabajo.innerText = "Subiendo imagen...";
+    divMensajeTrabajo.innerHTML = "";
+    
+    const archivoImagen = document.getElementById('imagen-trabajo').files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(archivoImagen);
+    reader.onload = async function() {
+        try {
+            const response = await fetch(URL_GOOGLE_SCRIPT, {
+                method: 'POST',
+                redirect: 'follow',
+                body: JSON.stringify({
+                    action: 'create',
+                    type: 'trabajos',
+                    imagenBase64: reader.result,
+                    imagenNombre: archivoImagen.name
+                })
+            });
+            const res = await response.json();
+            if (res.status === 'success') {
+                divMensajeTrabajo.innerHTML = `<span class="exito">¡Foto subida con éxito!</span>`;
+                formularioTrabajo.reset();
+                listarTrabajosAdmin();
+            }
+        } catch (error) { divMensajeTrabajo.innerHTML = `<span class="error">Error de servidor.</span>`; }
+        finally { btnGuardarTrabajo.disabled = false; btnGuardarTrabajo.innerText = "Guardar en Galería"; }
+    };
 });
 
 listarServiciosAdmin();

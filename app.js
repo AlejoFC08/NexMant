@@ -1,6 +1,7 @@
 const URL_GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbz8jOwMXlHLB27ozeCOLJbj6q9uhox9hR_B1KyK5eNoyQnDpZ65i941LL1YYyakPcOO9g/exec';
 
 const contenedorServicios = document.getElementById('contenedor-servicios');
+const contenedorTrabajos = document.getElementById('contenedor-trabajos');
 
 async function cargarServicios() {
     try {
@@ -41,21 +42,61 @@ async function cargarServicios() {
                 </div>
             `;
             
-            // Evento interactivo: Al hacer click en la tarjeta, alterna la clase .active para expandir/colapsar
             tarjeta.addEventListener('click', (e) => {
-                // Si el usuario hace click directo en el botón de WhatsApp, no colapsamos la tarjeta
                 if (e.target.classList.contains('btn-cotizar')) return;
-                
                 tarjeta.classList.toggle('active');
             });
 
             contenedorServicios.appendChild(tarjeta);
         });
-
     } catch (error) {
-        console.error('Error al cargar servicios desde Google Sheets:', error);
-        contenedorServicios.innerHTML = '<p style="text-align: center; color: red; width: 100%;">Error al conectar con el servidor de contenidos.</p>';
+        console.error('Error al cargar servicios:', error);
+    }
+}
+
+async function cargarTrabajos() {
+    if (!contenedorTrabajos) return;
+    try {
+        const response = await fetch(`${URL_GOOGLE_SCRIPT}?type=trabajos`);
+        const trabajos = await response.json();
+
+        if (!trabajos || trabajos.length === 0) {
+            contenedorTrabajos.innerHTML = '<p style="text-align: center; color: var(--color-secundario); width: 100%;">Próximamente fotos de nuestros proyectos.</p>';
+            return;
+        }
+
+        contenedorTrabajos.innerHTML = '';
+
+        trabajos.reverse().forEach(trabajo => {
+            const item = document.createElement('div');
+            item.className = 'carousel-item';
+
+            let urlSegura = trabajo.imagen_url;
+            if (urlSegura && urlSegura.includes("drive.google.com")) {
+                const fileId = urlSegura.split("id=")[1];
+                urlSegura = `https://drive.google.com/thumbnail?id=${fileId}&sz=1000`;
+            }
+
+            item.innerHTML = `<img src="${urlSegura}" alt="Trabajo Realizado NexMant">`;
+            contenedorTrabajos.appendChild(item);
+        });
+
+        const btnPrev = document.getElementById('prev-trabajo');
+        const btnNext = document.getElementById('next-trabajo');
+
+        if (btnPrev && btnNext) {
+            btnPrev.onclick = () => {
+                contenedorTrabajos.scrollBy({ left: -contenedorTrabajos.offsetWidth / 2, behavior: 'smooth' });
+            };
+            btnNext.onclick = () => {
+                contenedorTrabajos.scrollBy({ left: contenedorTrabajos.offsetWidth / 2, behavior: 'smooth' });
+            };
+        }
+    } catch (error) {
+        console.error('Error al cargar trabajos:', error);
+        contenedorTrabajos.innerHTML = '<p style="text-align: center; color: red; width: 100%;">Error al cargar la galería.</p>';
     }
 }
 
 cargarServicios();
+cargarTrabajos();
