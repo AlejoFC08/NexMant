@@ -475,7 +475,12 @@ footer {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 15px;
+        gap: 15px 20px; /* Crea un espacio parejo entre palabras */
+    }
+
+    .navbar-container nav a {
+        margin-left: 0; /* ¡Acá está la magia! Anulamos el empuje de la compu */
+        font-size: 0.95rem; /* Letra apenas más chica para que quede elegante */
     }
 
     /* 2. Sección Principal (Inicio) */
@@ -515,6 +520,38 @@ footer {
         padding: 15px;
     }
 }
+
+/* Adaptación de píldoras para pantallas de celulares */
+@media (max-width: 600px) {
+.contacto-fila {
+        flex-direction: column;
+        text-align: center;
+        border-radius: 50px; /* ¡Acá le devolvemos la forma de píldora! */
+        padding: 25px 20px;
+    }
+    
+    .contacto-info {
+        text-align: center;
+        margin-bottom: 15px; 
+    }
+
+    .contacto-info h3 {
+        font-size: 1.15rem; 
+    }
+
+    .contacto-info p {
+        font-size: 0.85rem; 
+        line-height: 1.4;   
+    }
+
+    .btn-pill {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
 
 /* Ajustes extra para celulares muy chicos (ej: iPhone SE) */
 @media (max-width: 480px) {
