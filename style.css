@@ -457,3 +457,72 @@ footer {
         height: 55px;
     }
 }
+
+
+/* =========================================
+   DISEÑO RESPONSIVE (CELULARES Y TABLETS)
+   ========================================= */
+@media (max-width: 768px) {
+    /* 1. Encabezado y Menú */
+    .navbar-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px 20px;
+    }
+    
+    .navbar-container nav {
+        margin-top: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* 2. Sección Principal (Inicio) */
+    .hero-section {
+        padding: 80px 20px;
+    }
+    
+    .hero-content h2 {
+        font-size: 2.2rem; /* Achica el título gigante */
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    /* 3. Espaciado general para no desperdiciar pantalla */
+    .section-padding {
+        padding: 50px 20px;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    /* 4. Grilla de Servicios (1 sola columna) */
+    .services-grid {
+        grid-template-columns: 1fr; /* Fuerza a que las tarjetas ocupen el 100% del ancho */
+        gap: 20px;
+    }
+
+    /* 5. Ajuste de las tarjetas de servicio */
+    .service-card {
+        margin-bottom: 10px;
+    }
+    
+    .service-card-content {
+        padding: 15px;
+    }
+}
+
+/* Ajustes extra para celulares muy chicos (ej: iPhone SE) */
+@media (max-width: 480px) {
+    .hero-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .navbar-container nav a {
+        font-size: 0.9rem;
+    }
+}
