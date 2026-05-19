@@ -55,7 +55,7 @@ h1, h2, h3 {
    ========================================= */
 header {
     background-color: var(--color-primario);
-    padding: 20px 0;
+    padding: 15px 0; /* Reducimos sutilmente el padding para que el logo calce justo */
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -70,9 +70,22 @@ header {
     padding: 0 20px;
 }
 
-.logo {
-    color: var(--color-texto-claro);
-    font-size: 1.8rem;
+/* Estilos para el contenedor del logo e imagen */
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 110px;       /* Lo subimos a 110px para que tenga mucho más impacto */
+    width: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.03); /* Efecto sutil al pasar el mouse */
 }
 
 nav a {
@@ -86,6 +99,19 @@ nav a {
 nav a:hover {
     color: var(--color-acento);
 }
+
+@media (max-width: 768px) {
+    .navbar-container { flex-direction: column; text-align: center; padding: 15px 20px; }
+    .navbar-container nav { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px 20px; }
+    .navbar-container nav a { margin-left: 0; font-size: 0.95rem; }
+    
+/* ... reglas del menú ... */
+    
+    .logo-img { height: 85px; margin-bottom: 5px; } /* Lo subimos a 85px para celulares */
+
+    .hero-section { padding: 80px 20px; }
+}
+
 
 /* =========================================
    HERO SECTION
@@ -152,6 +178,7 @@ nav a:hover {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     margin-top: 20px;
+    align-items: start; /* <- ESTA MAGIA evita que las tarjetas vecinas se estiren feo */
 }
 
 .service-card {
@@ -193,6 +220,7 @@ nav a:hover {
     margin-bottom: 20px;
     color: var(--color-secundario);
     font-size: 0.95rem;
+    white-space: pre-line; /* <- ESTO obliga a respetar los "Enter" y separar párrafos */
 }
 
 .btn-cotizar {
@@ -253,7 +281,7 @@ nav a:hover {
 }
 
 .service-card.active .service-card-content p {
-    max-height: 500px; 
+    max-height: 2000px; /* <- Subimos el tope a 2000px para que entre todo el texto sin cortarse */
     opacity: 1;
     margin-top: 12px;
     margin-bottom: 20px;
