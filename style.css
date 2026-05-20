@@ -453,9 +453,14 @@ footer {
 
 @media (max-width: 480px) {
     .hero-content h2 { font-size: 1.8rem; }
-    .navbar-container nav a { font-size: 0.9rem; }
+    
+    /* Ajustes nuevos para el menú en celulares */
+    .navbar-container { padding: 15px 10px; } /* Achicamos los márgenes laterales de la pantalla */
+    .navbar-container nav { gap: 10px 8px; }  /* Juntamos un poquito más las palabras */
+    .navbar-container nav a { font-size: 0.8rem; } /* Achicamos apenitas la letra */
+    
+    .carousel-item { flex: 0 0 100%; height: 240px; }
 }
-
 
 /* =========================================
    ESTILOS DE PESTAÑAS (ADMIN TABS)
