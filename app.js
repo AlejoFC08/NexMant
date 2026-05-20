@@ -99,7 +99,74 @@ async function cargarTrabajos() {
 }
 
 cargarServicios();
-cargarTrabajos();
+async function cargarTrabajos() {
+    if (!contenedorTrabajos) return;
+    try {
+        const response = await fetch(`${URL_GOOGLE_SCRIPT}?type=trabajos`);
+        const trabajos = await response.json();
+
+        if (!trabajos || trabajos.length === 0) {
+            contenedorTrabajos.innerHTML = '<p style="text-align: center; color: var(--color-secundario); width: 100%;">Próximamente fotos de nuestros proyectos.</p>';
+            return;
+        }
+
+        contenedorTrabajos.innerHTML = '';
+
+        trabajos.reverse().forEach(trabajo => {
+            const item = document.createElement('div');
+            item.className = 'carousel-item';
+
+            let urlSegura = trabajo.imagen_url;
+            if (urlSegura && urlSegura.includes("drive.google.com")) {
+                const fileId = urlSegura.split("id=")[1];
+                urlSegura = `https://drive.google.com/thumbnail?id=${fileId}&sz=1000`;
+            }
+
+            // NUEVO: Creamos la foto y le damos la orden de abrir el Lightbox al tocarla
+            const img = document.createElement('img');
+            img.src = urlSegura;
+            img.alt = "Trabajo Realizado NexMant";
+            img.style.cursor = "zoom-in"; // Pone el cursor con forma de lupa
+
+            img.onclick = () => {
+                document.getElementById('lightbox').style.display = 'block';
+                document.getElementById('lightbox-img').src = urlSegura;
+            };
+
+            item.appendChild(img);
+            contenedorTrabajos.appendChild(item);
+        });
+
+        const btnPrev = document.getElementById('prev-trabajo');
+        const btnNext = document.getElementById('next-trabajo');
+
+        // Función para que el carrusel avance o vuelva a empezar si llega al final
+        function scrollAvanzar() {
+            if (contenedorTrabajos.scrollLeft + contenedorTrabajos.offsetWidth >= contenedorTrabajos.scrollWidth - 10) {
+                contenedorTrabajos.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                contenedorTrabajos.scrollBy({ left: contenedorTrabajos.offsetWidth / 2, behavior: 'smooth' });
+            }
+        }
+
+        if (btnPrev && btnNext) {
+            btnPrev.onclick = () => contenedorTrabajos.scrollBy({ left: -contenedorTrabajos.offsetWidth / 2, behavior: 'smooth' });
+            btnNext.onclick = () => scrollAvanzar();
+        }
+
+        // NUEVO 1: El carrusel se mueve solo cada 3 segundos
+        let intervaloCarrusel = setInterval(scrollAvanzar, 3000);
+
+        // NUEVO 2: Si el usuario pone el mouse arriba (o el dedo), se pausa para que pueda mirar o tocar la foto.
+        contenedorTrabajos.addEventListener('mouseenter', () => clearInterval(intervaloCarrusel));
+        contenedorTrabajos.addEventListener('mouseleave', () => intervaloCarrusel = setInterval(scrollAvanzar, 3000));
+        contenedorTrabajos.addEventListener('touchstart', () => clearInterval(intervaloCarrusel)); // Para celu
+
+    } catch (error) {
+        console.error('Error al cargar trabajos:', error);
+        contenedorTrabajos.innerHTML = '<p style="text-align: center; color: red; width: 100%;">Error al cargar la galería.</p>';
+    }
+}
 
 
 // Detectar sección activa en el menú al scrollear
@@ -123,3 +190,19 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+
+// --- Lógica para cerrar el Lightbox (Foto ampliada) ---
+const lightbox = document.getElementById('lightbox');
+const lightboxClose = document.querySelector('.lightbox-close');
+
+if (lightboxClose) {
+    lightboxClose.onclick = () => lightbox.style.display = 'none';
+}
+
+// Cerrar también si el usuario toca afuera de la foto
+window.onclick = (e) => {
+    if (e.target === lightbox) {
+        lightbox.style.display = 'none';
+    }
+};
