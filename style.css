@@ -28,7 +28,7 @@ body {
     color: var(--color-texto);
     background-color: var(--color-fondo);
     line-height: 1.6;
-    /* Truco para empujar el footer */
+    /* Truco para empujar el footer hacia abajo */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -103,7 +103,6 @@ nav a:hover {
     color: var(--color-acento);
 }
 
-/* Resaltado del menú al scrollear */
 .navbar-container nav a.nav-active {
     color: #007bff; 
     font-weight: 600;
@@ -396,7 +395,7 @@ nav a:hover {
 .contacto-listado {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Un poquito más de aire entre filas */
+    gap: 20px;
     max-width: 750px;
     margin: 40px auto 0;
 }
@@ -410,24 +409,22 @@ nav a:hover {
     border-radius: 50px; 
     border: 1px solid #D9E6F2;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(10, 27, 47, 0.03); /* Sombra 3D sutil */
+    box-shadow: 0 4px 10px rgba(10, 27, 47, 0.03); 
 }
 
 .contacto-fila:hover {
     background-color: var(--color-fondo);
     border-color: var(--color-acento);
-    box-shadow: 0 8px 25px rgba(10, 27, 47, 0.08); /* Sombra más fuerte */
-    transform: translateY(-3px); /* Efecto de levitación elegante */
+    box-shadow: 0 8px 25px rgba(10, 27, 47, 0.08); 
+    transform: translateY(-3px); 
 }
 
-/* Agrupador de icono y textos */
 .contacto-datos {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-/* Diseño corporativo del ícono */
 .contacto-icono {
     background-color: var(--color-primario);
     color: var(--color-texto-claro);
@@ -448,7 +445,7 @@ nav a:hover {
 
 .contacto-fila:hover .contacto-icono {
     background-color: var(--color-acento);
-    transform: scale(1.1) rotate(5deg); /* Efecto vivo al pasar el mouse */
+    transform: scale(1.1) rotate(5deg); 
 }
 
 .contacto-info {
@@ -483,6 +480,43 @@ nav a:hover {
 .btn-pill:hover {
     background-color: var(--color-acento);
 }
+
+/* =========================================
+   FOOTER (ACÁ ESTÁ LA MAGIA PARA QUE NO FLOTE)
+   ========================================= */
+footer {
+    background-color: var(--color-primario);
+    color: #D9E6F2;
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 0.9rem;
+    margin-top: auto; /* Empuja el footer al final de todo */
+    width: 100%;
+}
+
+.wpp-flotante {
+    position: fixed;
+    bottom: 25px;      
+    right: 25px;       
+    width: 60px;
+    height: 60px;
+    background-color: #25D366; 
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 9999;     
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+
+.wpp-flotante:hover {
+    background-color: #128C7E; 
+    transform: scale(1.1) rotate(8deg); 
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
 /* =========================================
    ESTILOS EXCLUSIVOS AL PANEL ADMIN (INTERNO)
    ========================================= */
@@ -513,8 +547,6 @@ nav a:hover {
 /* =========================================
    DISEÑO RESPONSIVE (CELULARES Y TABLETS)
    ========================================= */
-
-/* TABLETS Y PANTALLAS MEDIANAS */
 @media (max-width: 900px) { 
     .dashboard { grid-template-columns: 1fr; } 
 }
@@ -546,7 +578,7 @@ nav a:hover {
     }
     
     .contacto-datos {
-        gap: 12px; /* Menos espacio en celular */
+        gap: 12px; 
     }
 
     .contacto-icono {
@@ -564,6 +596,7 @@ nav a:hover {
     .contacto-info p { font-size: 0.75rem; line-height: 1.2; margin: 0; }
     .btn-pill { margin-left: 10px; width: auto; padding: 10px 15px; font-size: 0.85rem; text-align: center; }
 }
+
 @media (max-width: 480px) {
     .hero-content h2 { font-size: 1.8rem; }
     .navbar-container { padding: 15px 10px; } 
@@ -571,16 +604,4 @@ nav a:hover {
     .navbar-container nav a { font-size: 0.8rem; } 
     .carousel-item { flex: 0 0 100%; height: 240px; }
     .wpp-flotante { bottom: 20px; right: 20px; width: 55px; height: 55px; }
-}
-
-
-body {
-    font-family: var(--fuente-principal);
-    color: var(--color-texto);
-    background-color: var(--color-fondo);
-    line-height: 1.6;
-    /* Truco para empujar el footer */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
