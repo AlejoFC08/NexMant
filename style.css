@@ -1,16 +1,16 @@
 /* =========================================
-   VARIABLES DE COLOR Y TIPOGRAFÍA (REGLA AZUL/BLANCO)
+   VARIABLES DE COLOR Y TIPOGRAFÍA
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 :root {
-    --color-primario: #0A1B2F;    /* Azul oscuro NexMant */
-    --color-acento: #1C5186;      /* Azul brillante para botones y detalles */
-    --color-secundario: #42678D;  /* Azul intermedio (Reemplaza a todos los grises de texto) */
-    --color-fondo: #FFFFFF;       /* Blanco puro */
-    --color-fondo-alt: #F2F6FA;   /* Blanco azulado muy sutil para alternar secciones */
-    --color-texto: #0A1B2F;       /* Todo el texto principal en azul oscuro */
-    --color-texto-claro: #FFFFFF; /* Texto blanco sobre fondos oscuros */
+    --color-primario: #0A1B2F;    
+    --color-acento: #1C5186;      
+    --color-secundario: #42678D;  
+    --color-fondo: #FFFFFF;       
+    --color-fondo-alt: #F2F6FA;   
+    --color-texto: #0A1B2F;       
+    --color-texto-claro: #FFFFFF; 
     --fuente-principal: 'Montserrat', sans-serif;
 }
 
@@ -55,7 +55,7 @@ h1, h2, h3 {
    ========================================= */
 header {
     background-color: var(--color-primario);
-    padding: 15px 0; /* Reducimos sutilmente el padding para que el logo calce justo */
+    padding: 15px 0; 
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -70,7 +70,6 @@ header {
     padding: 0 20px;
 }
 
-/* Estilos para el contenedor del logo e imagen */
 .logo-link {
     display: flex;
     align-items: center;
@@ -78,14 +77,14 @@ header {
 }
 
 .logo-img {
-    height: 110px;       /* Lo subimos a 110px para que tenga mucho más impacto */
+    height: 110px;       
     width: auto;
     display: block;
     transition: transform 0.3s ease;
 }
 
 .logo-img:hover {
-    transform: scale(1.03); /* Efecto sutil al pasar el mouse */
+    transform: scale(1.03); 
 }
 
 nav a {
@@ -100,18 +99,23 @@ nav a:hover {
     color: var(--color-acento);
 }
 
-@media (max-width: 768px) {
-    .navbar-container { flex-direction: column; text-align: center; padding: 15px 20px; }
-    .navbar-container nav { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px 20px; }
-    .navbar-container nav a { margin-left: 0; font-size: 0.95rem; }
-    
-/* ... reglas del menú ... */
-    
-    .logo-img { height: 85px; margin-bottom: 5px; } /* Lo subimos a 85px para celulares */
-
-    .hero-section { padding: 80px 20px; }
+/* Resaltado del menú al scrollear */
+.navbar-container nav a.nav-active {
+    color: #007bff; 
+    font-weight: 600;
+    position: relative;
 }
 
+.navbar-container nav a.nav-active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
 
 /* =========================================
    HERO SECTION
@@ -132,7 +136,7 @@ nav a:hover {
 .hero-content p {
     font-size: 1.2rem;
     margin-bottom: 30px;
-    color: #D9E6F2; /* Blanco azulado sutil */
+    color: #D9E6F2; 
 }
 
 .btn-principal {
@@ -148,7 +152,7 @@ nav a:hover {
 }
 
 .btn-principal:hover {
-    background-color: #123C66; /* Azul aún más oscuro al posar el mouse */
+    background-color: #123C66; 
     transform: translateY(-2px);
 }
 
@@ -172,25 +176,26 @@ nav a:hover {
     color: var(--color-secundario);
 }
 
-/* Grilla y tarjetas de servicios */
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     margin-top: 20px;
-    align-items: start; /* <- ESTA MAGIA evita que las tarjetas vecinas se estiren feo */
+    align-items: start; 
 }
 
 .service-card {
     background-color: var(--color-fondo);
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(10, 27, 47, 0.08); /* Sombra con base azul */
+    box-shadow: 0 5px 15px rgba(10, 27, 47, 0.08); 
     border-top: 4px solid var(--color-primario);
     transition: transform 0.3s ease;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     text-align: left;
+    cursor: pointer;
+    position: relative;
 }
 
 .service-card:hover {
@@ -220,7 +225,13 @@ nav a:hover {
     margin-bottom: 20px;
     color: var(--color-secundario);
     font-size: 0.95rem;
-    white-space: pre-line; /* <- ESTO obliga a respetar los "Enter" y separar párrafos */
+    white-space: pre-line; 
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    transition: all 0.4s ease-in-out;
 }
 
 .btn-cotizar {
@@ -233,28 +244,15 @@ nav a:hover {
     border-radius: 4px;
     text-align: center;
     transition: background-color 0.3s;
-}
-
-.btn-cotizar:hover {
-    background-color: var(--color-acento);
-}
-
-/* =========================================
-   EFECTO ACORDEÓN INTERACTIVO PARA TARJETAS
-   ========================================= */
-.service-card {
-    cursor: pointer;
-    position: relative;
-}
-
-.service-card-content p, 
-.service-card-content .btn-cotizar {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
     margin: 0;
     padding: 0;
-    transition: all 0.4s ease-in-out;
+}
+
+.btn-cotizar:hover {
+    background-color: var(--color-acento);
 }
 
 .service-card::after {
@@ -281,7 +279,7 @@ nav a:hover {
 }
 
 .service-card.active .service-card-content p {
-    max-height: 2000px; /* <- Subimos el tope a 2000px para que entre todo el texto sin cortarse */
+    max-height: 2000px; 
     opacity: 1;
     margin-top: 12px;
     margin-bottom: 20px;
@@ -291,202 +289,6 @@ nav a:hover {
     max-height: 50px;
     opacity: 1;
     padding: 10px 20px;
-}
-
-/* =========================================
-   SECCIÓN CONTACTO (ESTILO FILAS/PÍLDORAS)
-   ========================================= */
-.contacto-listado {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-width: 700px;
-    margin: 40px auto 0;
-}
-
-.contacto-fila {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--color-fondo-alt); 
-    padding: 20px 30px;
-    border-radius: 50px; 
-    border: 1px solid #D9E6F2;
-    transition: all 0.3s ease;
-}
-
-.contacto-fila:hover {
-    background-color: var(--color-fondo);
-    border-color: var(--color-acento);
-    box-shadow: 0 5px 15px rgba(10, 27, 47, 0.08);
-    transform: scale(1.02);
-}
-
-.contacto-info {
-    text-align: left;
-}
-
-.contacto-info h3 {
-    margin: 0 0 5px 0;
-    color: var(--color-primario);
-    font-size: 1.25rem;
-}
-
-.contacto-info p {
-    margin: 0;
-    color: var(--color-secundario);
-    font-size: 0.95rem;
-}
-
-.btn-pill {
-    display: inline-block;
-    padding: 12px 30px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 600;
-    color: white;
-    background-color: var(--color-primario);
-    transition: background 0.3s ease;
-    white-space: nowrap; 
-    margin-left: 20px;
-}
-
-.btn-pill:hover {
-    background-color: var(--color-acento);
-}
-
-/* =========================================
-   FOOTER
-   ========================================= */
-footer {
-    background-color: var(--color-primario);
-    color: #D9E6F2;
-    text-align: center;
-    padding: 40px 20px;
-    font-size: 0.9rem;
-}
-
-/* =========================================
-   BOTÓN FLOTANTE FIJO DE WHATSAPP (ÚNICA EXCEPCIÓN VERDE)
-   ========================================= */
-.wpp-flotante {
-    position: fixed;
-    bottom: 25px;      
-    right: 25px;       
-    width: 60px;
-    height: 60px;
-    background-color: #25D366; 
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    z-index: 9999;     
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-}
-
-.wpp-flotante:hover {
-    background-color: #128C7E; 
-    transform: scale(1.1) rotate(8deg); 
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-}
-
-@media (max-width: 480px) {
-    .wpp-flotante {
-        bottom: 20px;
-        right: 20px;
-        width: 55px;
-        height: 55px;
-    }
-}
-
-/* =========================================
-   ESTILOS EXCLUSIVOS AL PANEL ADMIN (INTERNO)
-   ========================================= */
-.admin-header { background: var(--color-primario); color: white; padding: 20px; text-align: center; }
-.dashboard { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; max-width: 1300px; margin: 40px auto; padding: 0 20px; }
-@media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } }
-.panel-form { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(10,27,47,0.08); height: fit-content; }
-.panel-lista { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(10,27,47,0.08); }
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--color-primario); }
-.form-control { width: 100%; padding: 10px; border: 1px solid #D9E6F2; border-radius: 4px; font-family: inherit; }
-.btn-submit { background-color: var(--color-primario); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%; }
-.btn-submit:hover { background-color: var(--color-acento); }
-.admin-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--color-fondo-alt); gap: 15px; }
-.admin-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
-.admin-item-info { flex-grow: 1; }
-.admin-item-info h4 { margin: 0; color: var(--color-primario); }
-.admin-item-info p { margin: 0; font-size: 0.85rem; color: var(--color-secundario); }
-/* El botón de eliminar se mantiene rojo solo por advertencia interna de borrado */
-.btn-danger { background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
-.btn-danger:hover { background-color: #bd2130; }
-#mensaje { margin-top: 15px; font-weight: bold; text-align: center; }
-.exito { color: var(--color-acento); }
-.error { color: #dc3545; }
-
-/* =========================================
-   DISEÑO RESPONSIVE (CELULARES Y TABLETS)
-   ========================================= */
-@media (max-width: 768px) {
-    .navbar-container { flex-direction: column; text-align: center; padding: 15px 20px; }
-    .navbar-container nav { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px 20px; }
-    .navbar-container nav a { margin-left: 0; font-size: 0.95rem; }
-    .hero-section { padding: 80px 20px; }
-    .hero-content h2 { font-size: 2.2rem; }
-    .hero-content p { font-size: 1rem; }
-    .section-padding { padding: 50px 20px; }
-    h2 { font-size: 1.8rem; }
-    .services-grid { grid-template-columns: 1fr; gap: 20px; }
-    .service-card { margin-bottom: 10px; }
-    .service-card-content { padding: 15px; }
-}
-
-@media (max-width: 600px) {
-    .contacto-fila { flex-direction: column; text-align: center; border-radius: 50px; padding: 25px 20px; }
-    .contacto-info { text-align: center; margin-bottom: 15px; }
-    .contacto-info h3 { font-size: 1.15rem; }
-    .contacto-info p { font-size: 0.85rem; line-height: 1.4; }
-    .btn-pill { margin-left: 0; width: 100%; text-align: center; }
-}
-
-@media (max-width: 480px) {
-    .hero-content h2 { font-size: 1.8rem; }
-    
-    /* Ajustes nuevos para el menú en celulares */
-    .navbar-container { padding: 15px 10px; } /* Achicamos los márgenes laterales de la pantalla */
-    .navbar-container nav { gap: 10px 8px; }  /* Juntamos un poquito más las palabras */
-    .navbar-container nav a { font-size: 0.8rem; } /* Achicamos apenitas la letra */
-    
-    .carousel-item { flex: 0 0 100%; height: 240px; }
-}
-
-/* =========================================
-   ESTILOS DE PESTAÑAS (ADMIN TABS)
-   ========================================= */
-.admin-tabs {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-bottom: 25px;
-}
-
-.btn-tab {
-    background-color: var(--color-fondo-alt);
-    color: var(--color-primario);
-    border: 1px solid #D9E6F2;
-    padding: 12px 25px;
-    border-radius: 30px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-tab.active, .btn-tab:hover {
-    background-color: var(--color-primario);
-    color: var(--color-texto-claro);
-    border-color: var(--color-primario);
 }
 
 /* =========================================
@@ -510,7 +312,6 @@ footer {
     width: 100%;
 }
 
-/* Ocultar scrollbar */
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-track { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -537,60 +338,6 @@ footer {
     object-fit: cover;
 }
 
-.carousel-btn {
-    background-color: var(--color-primario);
-    color: var(--color-texto-claro);
-    border: none;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    position: absolute;
-    z-index: 10;
-    transition: background-color 0.3s;
-}
-
-.carousel-btn:hover {
-    background-color: var(--color-acento);
-}
-
-.btn-prev { left: -60px; }
-.btn-next { right: -60px; }
-
-/* Ajustes Responsive para el carrusel */
-@media (max-width: 768px) {
-    .carousel-item { flex: 0 0 calc(50% - 10px); height: 220px; }
-    .btn-prev { left: -10px; }
-    .btn-next { right: -10px; }
-}
-
-@media (max-width: 480px) {
-    .carousel-item { flex: 0 0 100%; height: 240px; }
-}
-
-
-/* Resaltado del menú al scrollear */
-.navbar-container nav a.nav-active {
-    color: #007bff; /* Un azul claro/acento (podés cambiarlo por el color exacto de tus botones) */
-    font-weight: 600;
-    position: relative;
-}
-
-.navbar-container nav a.nav-active::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #007bff;
-    border-radius: 2px;
-}
-
 /* =========================================
    LIGHTBOX (AMPLIAR FOTOS DE GALERÍA)
    ========================================= */
@@ -602,19 +349,19 @@ footer {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(10, 27, 47, 0.95); /* Un azul casi negro para que resalte más la foto */
+    background-color: rgba(10, 27, 47, 0.95); 
 }
 
 .lightbox-content {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Centrado perfecto vertical y horizontal */
-    width: 95vw;   /* Fuerza a usar el 95% del ancho de la pantalla... */
-    height: 90vh;  /* ...y el 90% del alto */
+    transform: translate(-50%, -50%); 
+    width: 95vw;   
+    height: 90vh;  
     border-radius: 8px;
     box-shadow: 0 5px 25px rgba(0,0,0,0.8);
-    object-fit: contain; /* MAGIA: estira la foto al máximo posible sin deformarla */
+    object-fit: contain; 
     animation: zoomInFoto 0.3s ease forwards;
 }
 
@@ -637,4 +384,187 @@ footer {
 
 .lightbox-close:hover {
     color: var(--color-acento);
+}
+
+/* =========================================
+   SECCIÓN CONTACTO (ESTILO FILAS/PÍLDORAS)
+   ========================================= */
+.contacto-listado {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Un poquito más de aire entre filas */
+    max-width: 750px;
+    margin: 40px auto 0;
+}
+
+.contacto-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-fondo-alt); 
+    padding: 20px 30px;
+    border-radius: 50px; 
+    border: 1px solid #D9E6F2;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(10, 27, 47, 0.03); /* Sombra 3D sutil */
+}
+
+.contacto-fila:hover {
+    background-color: var(--color-fondo);
+    border-color: var(--color-acento);
+    box-shadow: 0 8px 25px rgba(10, 27, 47, 0.08); /* Sombra más fuerte */
+    transform: translateY(-3px); /* Efecto de levitación elegante */
+}
+
+/* Agrupador de icono y textos */
+.contacto-datos {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Diseño corporativo del ícono */
+.contacto-icono {
+    background-color: var(--color-primario);
+    color: var(--color-texto-claro);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.contacto-icono svg {
+    width: 26px;
+    height: 26px;
+}
+
+.contacto-fila:hover .contacto-icono {
+    background-color: var(--color-acento);
+    transform: scale(1.1) rotate(5deg); /* Efecto vivo al pasar el mouse */
+}
+
+.contacto-info {
+    text-align: left;
+}
+
+.contacto-info h3 {
+    margin: 0 0 3px 0;
+    color: var(--color-primario);
+    font-size: 1.25rem;
+}
+
+.contacto-info p {
+    margin: 0;
+    color: var(--color-secundario);
+    font-size: 0.95rem;
+}
+
+.btn-pill {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    background-color: var(--color-primario);
+    transition: background 0.3s ease;
+    white-space: nowrap; 
+    margin-left: 20px;
+}
+
+.btn-pill:hover {
+    background-color: var(--color-acento);
+}
+/* =========================================
+   ESTILOS EXCLUSIVOS AL PANEL ADMIN (INTERNO)
+   ========================================= */
+.admin-header { background: var(--color-primario); color: white; padding: 20px; text-align: center; }
+.dashboard { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; max-width: 1300px; margin: 40px auto; padding: 0 20px; }
+.panel-form, .panel-lista { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(10,27,47,0.08); }
+.panel-form { height: fit-content; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--color-primario); }
+.form-control { width: 100%; padding: 10px; border: 1px solid #D9E6F2; border-radius: 4px; font-family: inherit; }
+.btn-submit { background-color: var(--color-primario); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%; }
+.btn-submit:hover { background-color: var(--color-acento); }
+.admin-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--color-fondo-alt); gap: 15px; }
+.admin-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+.admin-item-info { flex-grow: 1; }
+.admin-item-info h4 { margin: 0; color: var(--color-primario); }
+.admin-item-info p { margin: 0; font-size: 0.85rem; color: var(--color-secundario); }
+.btn-danger { background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+.btn-danger:hover { background-color: #bd2130; }
+#mensaje { margin-top: 15px; font-weight: bold; text-align: center; }
+.exito { color: var(--color-acento); }
+.error { color: #dc3545; }
+
+.admin-tabs { display: flex; gap: 15px; justify-content: center; margin-bottom: 25px; }
+.btn-tab { background-color: var(--color-fondo-alt); color: var(--color-primario); border: 1px solid #D9E6F2; padding: 12px 25px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+.btn-tab.active, .btn-tab:hover { background-color: var(--color-primario); color: var(--color-texto-claro); border-color: var(--color-primario); }
+
+/* =========================================
+   DISEÑO RESPONSIVE (CELULARES Y TABLETS)
+   ========================================= */
+
+/* TABLETS Y PANTALLAS MEDIANAS */
+@media (max-width: 900px) { 
+    .dashboard { grid-template-columns: 1fr; } 
+}
+
+@media (max-width: 768px) {
+    .navbar-container { flex-direction: column; text-align: center; padding: 15px 20px; }
+    .navbar-container nav { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px 20px; }
+    .navbar-container nav a { margin-left: 0; font-size: 0.95rem; }
+    .logo-img { height: 85px; margin-bottom: 5px; } 
+    .hero-section { padding: 80px 20px; }
+    .hero-content h2 { font-size: 2.2rem; }
+    .hero-content p { font-size: 1rem; }
+    .section-padding { padding: 50px 20px; }
+    h2 { font-size: 1.8rem; }
+    .services-grid { grid-template-columns: 1fr; gap: 20px; }
+    .service-card { margin-bottom: 10px; }
+    .service-card-content { padding: 15px; }
+    .carousel-item { flex: 0 0 calc(50% - 10px); height: 220px; }
+}
+
+@media (max-width: 600px) {
+    .contacto-fila { 
+        flex-direction: row; 
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 50px; 
+        padding: 15px 20px; 
+        text-align: left;
+    }
+    
+    .contacto-datos {
+        gap: 12px; /* Menos espacio en celular */
+    }
+
+    .contacto-icono {
+        width: 42px;
+        height: 42px;
+    }
+
+    .contacto-icono svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contacto-info { margin-bottom: 0; flex-grow: 1; }
+    .contacto-info h3 { font-size: 1rem; margin-bottom: 2px;}
+    .contacto-info p { font-size: 0.75rem; line-height: 1.2; margin: 0; }
+    .btn-pill { margin-left: 10px; width: auto; padding: 10px 15px; font-size: 0.85rem; text-align: center; }
+}
+@media (max-width: 480px) {
+    .hero-content h2 { font-size: 1.8rem; }
+    .navbar-container { padding: 15px 10px; } 
+    .navbar-container nav { gap: 10px 8px; }  
+    .navbar-container nav a { font-size: 0.8rem; } 
+    .carousel-item { flex: 0 0 100%; height: 240px; }
+    .wpp-flotante { bottom: 20px; right: 20px; width: 55px; height: 55px; }
 }
