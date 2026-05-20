@@ -100,3 +100,26 @@ async function cargarTrabajos() {
 
 cargarServicios();
 cargarTrabajos();
+
+
+// Detectar sección activa en el menú al scrollear
+window.addEventListener('scroll', () => {
+    let current = '';
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.navbar-container nav a');
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        // Ajustamos un poco para que cambie justo cuando la sección entra a la vista
+        if (scrollY >= (sectionTop - 150)) { 
+            current = section.getAttribute('id');
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove('nav-active');
+        if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('nav-active');
+        }
+    });
+});

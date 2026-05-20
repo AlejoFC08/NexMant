@@ -571,3 +571,22 @@ footer {
 @media (max-width: 480px) {
     .carousel-item { flex: 0 0 100%; height: 240px; }
 }
+
+
+/* Resaltado del menú al scrollear */
+.navbar-container nav a.nav-active {
+    color: #007bff; /* Un azul claro/acento (podés cambiarlo por el color exacto de tus botones) */
+    font-weight: 600;
+    position: relative;
+}
+
+.navbar-container nav a.nav-active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
