@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexMant | Mantenimiento Integral</title>
+    
     <link rel="icon" type="image/png" href="logo.png">
 
     <meta property="og:title" content="NexMant - Mantenimiento y Restauración Edilicia">
@@ -8,17 +12,14 @@
     <meta property="og:image" content="https://alejofc08.github.io/nexmant/logo.png">
     <meta property="og:url" content="https://alejofc08.github.io/nexmant/">
     <meta property="og:type" content="website">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexMant | Mantenimiento Integral</title>
+
     <link rel="stylesheet" href="style.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
 
-<header>
+    <header>
         <div class="navbar-container">
             <a href="#inicio" class="logo-link">
                 <img src="logo.png" alt="NexMant Logo" class="logo-img">
@@ -42,7 +43,7 @@
         </div>
     </section>
 
-<section id="nosotros" class="section-padding" data-aos="fade-up">
+    <section id="nosotros" class="section-padding" data-aos="fade-up">
         <div class="container">
             <h2>Quiénes Somos</h2>
             <p id="texto-nosotros" style="white-space: pre-line; max-width: 800px; margin: 0 auto; color: var(--color-secundario); font-size: 1.1rem; text-align: center;">
@@ -68,23 +69,20 @@
         </div>
     </section>
 
-<section id="trabajos" class="section-padding bg-alt" data-aos="fade-up">
+    <section id="trabajos" class="section-padding bg-alt" data-aos="fade-up">
         <div class="container">
             <h2>Nuestros Trabajos</h2>
             <p class="subtitle">Una muestra de la calidad y el detalle en cada uno de nuestros proyectos finalizados</p>
             
             <div class="carousel-container">
-                <button class="carousel-btn btn-prev" id="prev-trabajo">◀</button>
                 <div class="carousel-track" id="contenedor-trabajos">
                     <p style="text-align: center; color: var(--color-secundario); width: 100%;">Cargando galería de proyectos...</p>
                 </div>
-                <button class="carousel-btn btn-next" id="next-trabajo">▶</button>
             </div>
         </div>
     </section>
 
-
-<section id="contacto" class="section-padding" data-aos="fade-up">
+    <section id="contacto" class="section-padding" data-aos="fade-up">
        <div class="contacto-listado">
                 <div class="contacto-fila fila-wsp">
                     <div class="contacto-info">
@@ -119,8 +117,7 @@
         </div>
     </footer>
 
-
-<a href="https://wa.me/5491165778502?text=Hola%20NexMant,%20me%20gustar%C3%ADa%20hacer%20una%20consulta." 
+    <a href="https://wa.me/5491165778502?text=Hola%20NexMant,%20me%20gustar%C3%ADa%20hacer%20una%20consulta." 
        class="wpp-flotante" 
        target="_blank" 
        rel="noopener noreferrer" 
@@ -134,13 +131,14 @@
         <span class="lightbox-close">&times;</span>
         <img class="lightbox-content" id="lightbox-img">
     </div>
-    
+
     <script src="app.js"></script>
+    
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       AOS.init({
         duration: 800, // Duración suave
-        once: true     // Importante: hace que se anime solo la primera vez que pasás, para no marear al usuario si sube y baja.
+        once: true     // Se anima solo la primera vez que pasás
       });
     </script>
 </body>

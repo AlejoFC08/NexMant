@@ -591,35 +591,36 @@ footer {
     border-radius: 2px;
 }
 
-
 /* =========================================
    LIGHTBOX (AMPLIAR FOTOS DE GALERÍA)
    ========================================= */
 .lightbox-modal {
-    display: none; /* Oculto por defecto */
+    display: none; 
     position: fixed;
-    z-index: 10000; /* Bien por encima de todo */
-    padding-top: 60px;
+    z-index: 10000; 
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(10, 27, 47, 0.9); /* Azul primario transparente */
+    background-color: rgba(10, 27, 47, 0.95); /* Un azul casi negro para que resalte más la foto */
 }
 
 .lightbox-content {
-    margin: auto;
-    display: block;
-    max-width: 90%;
-    max-height: 80vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrado perfecto vertical y horizontal */
+    width: 95vw;   /* Fuerza a usar el 95% del ancho de la pantalla... */
+    height: 90vh;  /* ...y el 90% del alto */
     border-radius: 8px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-    animation: zoomIn 0.3s ease;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.8);
+    object-fit: contain; /* MAGIA: estira la foto al máximo posible sin deformarla */
+    animation: zoomInFoto 0.3s ease forwards;
 }
 
-@keyframes zoomIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+@keyframes zoomInFoto {
+    from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
 .lightbox-close {
@@ -631,6 +632,7 @@ footer {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+    z-index: 10001;
 }
 
 .lightbox-close:hover {
